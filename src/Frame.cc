@@ -22,6 +22,17 @@
 #include "Converter.h"
 #include "ORBmatcher.h"
 #include <thread>
+#include <opencv2/core/types.hpp>
+
+// The previous image
+cv::Mat imGrayPre;
+std::vector<cv::Point2f> prepoint, nextpoint;
+std::vector<cv::Point2f> F_prepoint, F_nextpoint;
+std::vector<cv::Point2f> F2_prepoint, F2_nextpoint;
+
+std::vector<uchar> state;
+std::vector<float> err;
+std::vector<std::vector<cv::KeyPoint>> mvKeysPre;
 
 namespace ORB_SLAM2
 {
@@ -116,6 +127,7 @@ Frame::Frame(const cv::Mat &imLeft, const cv::Mat &imRight, const double &timeSt
     AssignFeaturesToGrid();
 }
 
+// RGBD Frame
 Frame::Frame(const cv::Mat &imGray, const cv::Mat &imDepth, const double &timeStamp, ORBextractor* extractor,ORBVocabulary* voc, cv::Mat &K, cv::Mat &distCoef, const float &bf, const float &thDepth)
     :mpORBvocabulary(voc),mpORBextractorLeft(extractor),mpORBextractorRight(static_cast<ORBextractor*>(NULL)),
      mTimeStamp(timeStamp), mK(K.clone()),mDistCoef(distCoef.clone()), mbf(bf), mThDepth(thDepth)
@@ -132,13 +144,32 @@ Frame::Frame(const cv::Mat &imGray, const cv::Mat &imDepth, const double &timeSt
     mvLevelSigma2 = mpORBextractorLeft->GetScaleSigmaSquares();
     mvInvLevelSigma2 = mpORBextractorLeft->GetInverseScaleSigmaSquares();
 
+
+    specialExtractORBKeyPoints(0,imGray);
     // ORB extraction
-    ExtractORB(0,imGray);
+    //ExtractORB(0,imGray);
+
+
+    cv::Mat  imGrayT = imGray;
+    // Calculate the dynamic abnormal points and output the T matrix
+    if(imGrayPre.data)
+    {
+        ProcessMovingObject(imGray);
+        std::swap(imGrayPre, imGrayT);
+    }
+    else
+    {
+        std::swap(imGrayPre, imGrayT);
+        flag_mov=0;
+    }
+
 
     N = mvKeys.size();
 
     if(mvKeys.empty())
         return;
+
+    cout<<"reached here\n";
 
     UndistortKeyPoints();
 
@@ -227,6 +258,45 @@ Frame::Frame(const cv::Mat &imGray, const double &timeStamp, ORBextractor* extra
     AssignFeaturesToGrid();
 }
 
+void Frame::removeIncorrectKeyPoints(cv::Mat &imRGB, const cv::Mat &imGray, const cv::Mat &imDepth, cv::Mat &K) {
+
+    if(!T_M.empty())
+    {
+        //  mpORBextractorLeft->removeKeyPoints(mvKeysTemp,T_M);
+    }
+
+    specialExtractORBDesp(0,imGray);
+    N = mvKeys.size();
+    if(mvKeys.empty())
+    return;
+
+    UndistortKeyPoints();
+    ComputeStereoFromRGBD(imDepth);
+    mvpMapPoints = vector<MapPoint*>(N,static_cast<MapPoint*>(NULL));
+    mvbOutlier = vector<bool>(N,false);
+
+    // This is done only for the first Frame (or after a change in the calibration)
+    if(mbInitialComputations)
+    {
+        ComputeImageBounds(imGray);
+
+        mfGridElementWidthInv=static_cast<float>(FRAME_GRID_COLS)/static_cast<float>(mnMaxX-mnMinX);
+        mfGridElementHeightInv=static_cast<float>(FRAME_GRID_ROWS)/static_cast<float>(mnMaxY-mnMinY);
+
+        fx = K.at<float>(0,0);
+        fy = K.at<float>(1,1);
+        cx = K.at<float>(0,2);
+        cy = K.at<float>(1,2);
+        invfx = 1.0f/fx;
+        invfy = 1.0f/fy;
+
+        mbInitialComputations=false;
+    }
+
+    mb = mbf/fx;
+
+    AssignFeaturesToGrid();
+}
 void Frame::AssignFeaturesToGrid()
 {
     int nReserve = 0.5f*N/(FRAME_GRID_COLS*FRAME_GRID_ROWS);
@@ -244,12 +314,30 @@ void Frame::AssignFeaturesToGrid()
     }
 }
 
+
+void Frame::specialExtractORBKeyPoints(int flag, const cv::Mat &im)
+{
+    if(flag==0)
+        (*mpORBextractorLeft)(im,cv::Mat(),mvKeysTemp);
+    else
+        (*mpORBextractorRight)(im,cv::Mat(),mvKeysTemp);
+}
+
 void Frame::ExtractORB(int flag, const cv::Mat &im)
 {
     if(flag==0)
         (*mpORBextractorLeft)(im,cv::Mat(),mvKeys,mDescriptors);
     else
         (*mpORBextractorRight)(im,cv::Mat(),mvKeysRight,mDescriptorsRight);
+}
+
+void Frame::specialExtractORBDesp(int flag,const cv::Mat &imgray)
+{
+    if(flag==0)
+        (*mpORBextractorLeft).specialProcessDesp(imgray,cv::Mat(),mvKeysTemp,mvKeys,mDescriptors);
+    else
+        (*mpORBextractorLeft).specialProcessDesp(imgray,cv::Mat(),mvKeysTemp,mvKeysRight,mDescriptorsRight);
+    
 }
 
 void Frame::SetPose(cv::Mat Tcw)
@@ -462,6 +550,88 @@ void Frame::ComputeImageBounds(const cv::Mat &imLeft)
         mnMaxY = imLeft.rows;
     }
 }
+
+// Epipolar constraints and output the T matrix.
+void Frame::ProcessMovingObject(const cv::Mat &imgray)
+{
+    // Clear the previous data
+	F_prepoint.clear();
+	F_nextpoint.clear();
+	F2_prepoint.clear();
+	F2_nextpoint.clear();
+	T_M.clear();
+
+	// Detect dynamic target and ultimately optput the T matrix
+	
+    cv::goodFeaturesToTrack(imGrayPre, prepoint, 1000, 0.01, 8, cv::Mat(), 3, true, 0.04);
+    cv::cornerSubPix(imGrayPre, prepoint, cv::Size(10, 10), cv::Size(-1, -1), cv::TermCriteria(cv::TermCriteria::MAX_ITER| cv::TermCriteria::EPS, 20, 0.03));
+    cv::calcOpticalFlowPyrLK(imGrayPre, imgray, prepoint, nextpoint, state, err, cv::Size(22, 22), 5, cv::TermCriteria(cv::TermCriteria::MAX_ITER| cv::TermCriteria::EPS, 20, 0.01));
+
+	for (int i = 0; i < state.size(); i++)
+    {
+        if(state[i] != 0)
+        {
+            int dx[10] = { -1, 0, 1, -1, 0, 1, -1, 0, 1 };
+            int dy[10] = { -1, -1, -1, 0, 0, 0, 1, 1, 1 };
+            int x1 = prepoint[i].x, y1 = prepoint[i].y;
+            int x2 = nextpoint[i].x, y2 = nextpoint[i].y;
+            if ((x1 < limit_edge_corner || x1 >= imgray.cols - limit_edge_corner || x2 < limit_edge_corner || x2 >= imgray.cols - limit_edge_corner
+            || y1 < limit_edge_corner || y1 >= imgray.rows - limit_edge_corner || y2 < limit_edge_corner || y2 >= imgray.rows - limit_edge_corner))
+            {
+                state[i] = 0;
+                continue;
+            }
+            double sum_check = 0;
+            for (int j = 0; j < 9; j++)
+                sum_check += abs(imGrayPre.at<uchar>(y1 + dy[j], x1 + dx[j]) - imgray.at<uchar>(y2 + dy[j], x2 + dx[j]));
+            if (sum_check > limit_of_check) state[i] = 0;
+            if (state[i])
+            {
+                F_prepoint.push_back(prepoint[i]);
+                F_nextpoint.push_back(nextpoint[i]);
+            }
+        }
+    }
+    // F-Matrix
+    cv::Mat mask = cv::Mat(cv::Size(1, 300), CV_8UC1);
+    cv::Mat F = cv::findFundamentalMat(F_prepoint, F_nextpoint, mask, cv::FM_RANSAC, 0.1, 0.99);
+    for (int i = 0; i < mask.rows; i++)
+    {
+        if (mask.at<uchar>(i, 0) == 0);
+        else
+        {
+            // Circle(pre_frame, F_prepoint[i], 6, Scalar(255, 255, 0), 3);
+            double A = F.at<double>(0, 0)*F_prepoint[i].x + F.at<double>(0, 1)*F_prepoint[i].y + F.at<double>(0, 2);
+            double B = F.at<double>(1, 0)*F_prepoint[i].x + F.at<double>(1, 1)*F_prepoint[i].y + F.at<double>(1, 2);
+            double C = F.at<double>(2, 0)*F_prepoint[i].x + F.at<double>(2, 1)*F_prepoint[i].y + F.at<double>(2, 2);
+            double dd = fabs(A*F_nextpoint[i].x + B*F_nextpoint[i].y + C) / sqrt(A*A + B*B); //Epipolar constraints
+            if (dd <= 0.1)
+            {
+                F2_prepoint.push_back(F_prepoint[i]);
+                F2_nextpoint.push_back(F_nextpoint[i]);
+            }
+        }
+    }
+    F_prepoint = F2_prepoint;
+    F_nextpoint = F2_nextpoint;
+
+    for (int i = 0; i < prepoint.size(); i++)
+    {
+        if (state[i] != 0)
+        {
+            double A = F.at<double>(0, 0)*prepoint[i].x + F.at<double>(0, 1)*prepoint[i].y + F.at<double>(0, 2);
+            double B = F.at<double>(1, 0)*prepoint[i].x + F.at<double>(1, 1)*prepoint[i].y + F.at<double>(1, 2);
+            double C = F.at<double>(2, 0)*prepoint[i].x + F.at<double>(2, 1)*prepoint[i].y + F.at<double>(2, 2);
+            double dd = fabs(A*nextpoint[i].x + B*nextpoint[i].y + C) / sqrt(A*A + B*B);
+
+            // Judge outliers
+            if (dd <= limit_dis_epi) continue;
+            T_M.push_back(nextpoint[i]);
+        }
+    }
+
+}
+
 
 void Frame::ComputeStereoMatches()
 {

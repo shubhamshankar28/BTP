@@ -60,9 +60,18 @@ public:
     // Compute the ORB features and descriptors on an image.
     // ORB are dispersed on the image using an octree.
     // Mask is ignored in the current implementation.
+
+    int removeKeyPoints(std::vector<std::vector<cv::KeyPoint>>& mvKeysT,std::vector<cv::Point2f> T);
+    void operator()( cv::InputArray image, cv::InputArray mask,
+    std::vector<std::vector<cv::KeyPoint>>& _keypoints);
+
     void operator()( cv::InputArray image, cv::InputArray mask,
       std::vector<cv::KeyPoint>& keypoints,
       cv::OutputArray descriptors);
+
+    void specialProcessDesp( cv::InputArray image, cv::InputArray mask,
+    std::vector<std::vector<cv::KeyPoint>>& _allKeypoints,std::vector<cv::KeyPoint>& _mKeypoints,
+    cv::OutputArray descriptors);
 
     int inline GetLevels(){
         return nlevels;}

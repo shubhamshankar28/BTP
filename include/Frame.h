@@ -58,7 +58,11 @@ public:
     Frame(const cv::Mat &imGray, const double &timeStamp, ORBextractor* extractor,ORBVocabulary* voc, cv::Mat &K, cv::Mat &distCoef, const float &bf, const float &thDepth);
 
     // Extract ORB on the image. 0 for left image and 1 for right image.
+    void specialExtractORBKeyPoints(int flag,const cv::Mat &im);
     void ExtractORB(int flag, const cv::Mat &im);
+    void ExtractORBDesp(int flag,const cv::Mat &im);
+    void specialExtractORBDesp(int flag,const cv::Mat &im);
+    void removeIncorrectKeyPoints(cv::Mat &imRGB, const cv::Mat &imGray, const cv::Mat &imDepth, cv::Mat &K);
 
     // Compute Bag of Words representation.
     void ComputeBoW();
@@ -97,6 +101,15 @@ public:
 
     // Backprojects a keypoint (if stereo/depth info available) into 3D world coordinates.
     cv::Mat UnprojectStereo(const int &i);
+
+    void ProcessMovingObject(const cv::Mat &imgray );
+    // Sets for abnormal points
+    std::vector<cv::Point2f> T_M;
+    double limit_dis_epi =1; 
+    double limit_of_check = 2120;
+    int limit_edge_corner = 5;
+    int flag_mov ;
+    std::vector<std::vector<cv::KeyPoint>> mvKeysTemp;
 
 public:
     // Vocabulary used for relocalization.

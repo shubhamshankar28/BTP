@@ -1031,6 +1031,41 @@ void ORBextractor::ComputeKeyPointsOld(std::vector<std::vector<KeyPoint> > &allK
         computeOrientation(mvImagePyramid[level], allKeypoints[level], umax);
 }
 
+int ORBextractor::removeKeyPoints(std::vector<std::vector<cv::KeyPoint>>& mvKeysT,std::vector<cv::Point2f> T) {
+    float scale;
+    for (int level = 0; level < nlevels; ++level)
+        {
+            vector<cv::KeyPoint>& mkeypoints = mvKeysT[level];
+            int nkeypointsLevel = (int)mkeypoints.size();
+            if(nkeypointsLevel==0)
+                    continue;
+            if (level != 0)
+                scale = mvScaleFactor[level]; 
+            else
+                scale =1; 
+            vector<cv::KeyPoint>::iterator keypoint = mkeypoints.begin();
+            
+            while(keypoint != mkeypoints.end())
+            {
+                cv::Point2f search_coord = keypoint->pt * scale;
+                // Search in the semantic image
+                int found = 0;
+                int size = min(0,(int)T.size());
+                for(int j=0;j<size;++j) {
+                    if((T[j].x == search_coord.x) && (T[j].y == search_coord.y)) {
+                        found = 1;
+                    }
+                }
+                if(found == 1) {
+			        keypoint=mkeypoints.erase(keypoint);
+                }
+                else {
+                    keypoint++;
+                }
+            }
+        }
+        return 1;
+}
 static void computeDescriptors(const Mat& image, vector<KeyPoint>& keypoints, Mat& descriptors,
                                const vector<Point>& pattern)
 {
@@ -1039,6 +1074,74 @@ static void computeDescriptors(const Mat& image, vector<KeyPoint>& keypoints, Ma
     for (size_t i = 0; i < keypoints.size(); i++)
         computeOrbDescriptor(keypoints[i], image, &pattern[0], descriptors.ptr((int)i));
 }
+
+void ORBextractor::operator()(cv::InputArray _image, cv::InputArray _mask, vector<vector<cv::KeyPoint>>& _keypoints
+                      )
+{ 
+    if(_image.empty())
+        return;
+
+    cv::Mat image = _image.getMat();
+    assert(image.type() == CV_8UC1 );
+
+    // Pre-compute the scale pyramid
+    ComputePyramid(image);
+    ComputeKeyPointsOctTree(_keypoints);
+
+}
+
+void ORBextractor::specialProcessDesp(cv::InputArray _image, cv::InputArray _mask, vector<vector<cv::KeyPoint>>& _allKeypoints,
+                      vector<cv::KeyPoint>& _mKeypoints,cv::OutputArray _descriptors)
+{
+  
+    cv:: Mat descriptors;
+
+    int nkeypoints = 0;
+    for (int level = 0; level < nlevels; ++level)
+        nkeypoints += (int)_allKeypoints[level].size();
+    if( nkeypoints == 0 )
+        _descriptors.release();
+    else
+    {
+        _descriptors.create(nkeypoints, 32, CV_8U);
+        descriptors = _descriptors.getMat();
+    }
+
+    _mKeypoints.clear();
+    _mKeypoints.reserve(nkeypoints);
+
+    int offset = 0;
+    for (int level = 0; level < nlevels; ++level)
+    {
+        vector<cv::KeyPoint>& keypoints = _allKeypoints[level];
+        int nkeypointsLevel = (int)keypoints.size();
+
+        if(nkeypointsLevel==0)
+            continue;
+
+        // Preprocess the resized image
+        cv::Mat workingMat = mvImagePyramid[level].clone();
+        GaussianBlur(workingMat, workingMat, cv::Size(7, 7), 2, 2, cv::BORDER_REFLECT_101);
+
+        // Compute the descriptors
+        cv::Mat desc = descriptors.rowRange(offset, offset + nkeypointsLevel);
+        computeDescriptors(workingMat, keypoints, desc, pattern);
+
+        offset += nkeypointsLevel;
+
+        // Scale keypoint coordinates
+        if (level != 0)
+        {
+            float scale = mvScaleFactor[level];
+            for (vector<cv::KeyPoint>::iterator keypoint = keypoints.begin(),
+                 keypointEnd = keypoints.end(); keypoint != keypointEnd; ++keypoint)
+                 keypoint->pt *= scale;
+        }
+        // And add the keypoints to the output
+        _mKeypoints.insert(_mKeypoints.end(), keypoints.begin(), keypoints.end());
+    }
+}
+
 
 void ORBextractor::operator()( InputArray _image, InputArray _mask, vector<KeyPoint>& _keypoints,
                       OutputArray _descriptors)
