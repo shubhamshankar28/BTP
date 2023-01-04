@@ -46,8 +46,9 @@ int main(int argc, char **argv)
     vector<string> vstrImageFilenamesD;
     vector<double> vTimestamps;
     string strAssociationFilename = string(argv[4]);
+    cout<<"starting load image process\n";
     LoadImages(strAssociationFilename, vstrImageFilenamesRGB, vstrImageFilenamesD, vTimestamps);
-
+    cout<<"done loading images\n";
     // Check consistency in the number of images and depthmaps
     int nImages = vstrImageFilenamesRGB.size();
     if(vstrImageFilenamesRGB.empty())
@@ -144,10 +145,15 @@ void LoadImages(const string &strAssociationFilename, vector<string> &vstrImageF
 {
     ifstream fAssociation;
     fAssociation.open(strAssociationFilename.c_str());
+    cout<<strAssociationFilename<<"\n";
+    int counter = 0;
     while(!fAssociation.eof())
-    {
+    {   
+        counter++;
         string s;
         getline(fAssociation,s);
+        cout<<"loading image : "<<counter<<" --"<<s<<"-- \n";
+        if(counter > 717) break;
         if(!s.empty())
         {
             stringstream ss;

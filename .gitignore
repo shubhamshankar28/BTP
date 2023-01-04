@@ -23,3 +23,6 @@ build/
 lib/
 CameraTrajectory.txt
 KeyFrameTrajectory.txt
+.vscode/
+*.log
+*.log
