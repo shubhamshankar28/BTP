@@ -258,11 +258,11 @@ Frame::Frame(const cv::Mat &imGray, const double &timeStamp, ORBextractor* extra
     AssignFeaturesToGrid();
 }
 
-void Frame::removeIncorrectKeyPoints(cv::Mat &imRGB, const cv::Mat &imGray, const cv::Mat &imDepth, cv::Mat &K) {
+void Frame::removeIncorrectKeyPoints(cv::Mat &imRGB, const cv::Mat &imGray, const cv::Mat &imDepth, cv::Mat &K, const cv::Mat &segmentationOutput) {
 
     if(!T_M.empty())
     {
-        //  mpORBextractorLeft->removeKeyPoints(mvKeysTemp,T_M);
+         mpORBextractorLeft->removeKeyPoints(mvKeysTemp,T_M,segmentationOutput);
     }
 
     specialExtractORBDesp(0,imGray);

@@ -1031,40 +1031,90 @@ void ORBextractor::ComputeKeyPointsOld(std::vector<std::vector<KeyPoint> > &allK
         computeOrientation(mvImagePyramid[level], allKeypoints[level], umax);
 }
 
-int ORBextractor::removeKeyPoints(std::vector<std::vector<cv::KeyPoint>>& mvKeysT,std::vector<cv::Point2f> T) {
+bool ORBextractor::checkIsDynamic(int r, int c, const cv::Mat &segmentedImage) {
+    int redVal= segmentedImage.at<Vec3b>(r,c)[0];
+    int greenVal= segmentedImage.at<Vec3b>(r,c)[1];
+    int blueVal= segmentedImage.at<Vec3b>(r,c)[2];
+
+    if((redVal==41) && (greenVal==163) && (blueVal==250))
+        return true;
+    return false;
+}
+
+int ORBextractor::removeKeyPoints(std::vector<std::vector<cv::KeyPoint>>& mvKeysT,std::vector<cv::Point2f> T, const cv::Mat &segmentationOutput) {
+
+
     float scale;
-    for (int level = 0; level < nlevels; ++level)
-        {
-            vector<cv::KeyPoint>& mkeypoints = mvKeysT[level];
-            int nkeypointsLevel = (int)mkeypoints.size();
-            if(nkeypointsLevel==0)
-                    continue;
-            if (level != 0)
-                scale = mvScaleFactor[level]; 
-            else
-                scale =1; 
-            vector<cv::KeyPoint>::iterator keypoint = mkeypoints.begin();
-            
-            while(keypoint != mkeypoints.end())
+    int flag_orb_mov =0;
+   
+   int height = 480;
+   int width = 640;
+   // Make further judgment
+       
+	for (int i = 0; i < T.size(); i++)
+	{
+	    for(int m = -15; m < 15; m++) 
+	    {
+	        for(int n = -15; n < 15; n++)
+	        {
+	            int my = ((int)T[i].y + n) ;
+	            int mx = ((int)T[i].x + m) ;
+		        if( ((int)T[i].y + n) > (height -1) ) my = (height - 1) ;
+	        	if( ((int)T[i].y + n) < 1 ) my = 0;
+		        if( ((int)T[i].x + m) > (width -1) ) mx = (width - 1) ;
+		        if( ((int)T[i].x + m) < 1 ) mx = 0;
+                // The label of peopel is 15
+		        if(checkIsDynamic(my,mx,segmentationOutput))
+		        {
+		            flag_orb_mov=1;
+		               break;
+		        }
+	        }
+	            if(flag_orb_mov==1)
+	                 break;
+	     }
+	         if(flag_orb_mov==1)
+	            break;
+	}
+	 
+    int removed= 0; 
+    int total = 0;
+	// Moving
+	if(flag_orb_mov==1)
+	{
+	    for (int level = 0; level < nlevels; ++level)
             {
-                cv::Point2f search_coord = keypoint->pt * scale;
-                // Search in the semantic image
-                int found = 0;
-                int size = min(0,(int)T.size());
-                for(int j=0;j<size;++j) {
-                    if((T[j].x == search_coord.x) && (T[j].y == search_coord.y)) {
-                        found = 1;
-                    }
-                }
-                if(found == 1) {
-			        keypoint=mkeypoints.erase(keypoint);
-                }
-                else {
-                    keypoint++;
-                }
-            }
-        }
-        return 1;
+                vector<cv::KeyPoint>& mkeypoints = mvKeysT[level];
+		        int nkeypointsLevel = (int)mkeypoints.size();
+		        if(nkeypointsLevel==0)
+		                continue;
+		        if (level != 0)
+			        scale = mvScaleFactor[level]; 
+		        else
+			        scale =1; 
+                vector<cv::KeyPoint>::iterator keypoint = mkeypoints.begin();
+               
+                while(keypoint != mkeypoints.end())
+	            {   total++;
+		             cv::Point2f search_coord = keypoint->pt * scale;
+		             // Search in the semantic image
+		             if(search_coord.x >= (width -1)) search_coord.x=(width -1);
+		             if(search_coord.y >= (height -1)) search_coord.y=(height -1) ;
+		             if(checkIsDynamic(search_coord.x,search_coord.y,segmentationOutput)) 
+		             {  removed++;
+ 			            keypoint=mkeypoints.erase(keypoint);		       
+		             }
+		             else
+		             {
+			            keypoint++;
+		             }
+	             }
+	          }
+      }
+
+      std::cout<<"total: "<<total<<" removed: "<<removed<<"\n";
+      return flag_orb_mov;
+
 }
 static void computeDescriptors(const Mat& image, vector<KeyPoint>& keypoints, Mat& descriptors,
                                const vector<Point>& pattern)

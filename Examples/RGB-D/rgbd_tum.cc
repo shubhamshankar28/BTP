@@ -33,20 +33,32 @@ using namespace std;
 void LoadImages(const string &strAssociationFilename, vector<string> &vstrImageFilenamesRGB,
                 vector<string> &vstrImageFilenamesD, vector<double> &vTimestamps);
 
+
+string deriveSegmentName(string &s) {
+    int len = s.size();
+    string fin = s.substr(4,len-8);
+    string suffix = "_segment.png";
+    return (fin+suffix);
+}
+
 int main(int argc, char **argv)
 {
-    if(argc != 5)
+    if(argc != 6)
     {
         cerr << endl << "Usage: ./rgbd_tum path_to_vocabulary path_to_settings path_to_sequence path_to_association" << endl;
         return 1;
     }
 
+    for(int i=0;i<argc;++i) {
+        cout<<i<<" "<<argv[i]<<"\n";
+    }
     // Retrieve paths to images
     vector<string> vstrImageFilenamesRGB;
     vector<string> vstrImageFilenamesD;
     vector<double> vTimestamps;
     string strAssociationFilename = string(argv[4]);
     LoadImages(strAssociationFilename, vstrImageFilenamesRGB, vstrImageFilenamesD, vTimestamps);
+    // return 1;
 
     // Check consistency in the number of images and depthmaps
     int nImages = vstrImageFilenamesRGB.size();
@@ -73,12 +85,45 @@ int main(int argc, char **argv)
     cout << "Images in the sequence: " << nImages << endl << endl;
 
     // Main loop
-    cv::Mat imRGB, imD;
+    cv::Mat imRGB, imD, segmentationOutput;
+    // cv::Mat segmentedImage= cv::imread("/home/cse/segmentationTest/out.png" ,IMREAD_UNCHANGED);
+
+    // cout<<segmentedImage.rows<<" "<<segmentedImage.cols<<" "<<segmentedImage.channels()<<"\n";
+
+    
+
+
+    // int cols = segmentedImage.cols-1;
+    // for(int i=0;i<segmentedImage.rows;++i) {
+    //     int r= segmentedImage.at<Vec3b>(i,cols)[0];
+    //     int g= segmentedImage.at<Vec3b>(i,cols)[1];
+    //     int b= segmentedImage.at<Vec3b>(i,cols)[2];
+    //     cout<<r<<" "<<g<<" "<<b<<"\n";
+    // }
+
     for(int ni=0; ni<nImages; ni++)
     {
-        // Read image and depthmap from file
+
+        // cout<<(string(argv[3]) + "/" + vstrImageFilenamesRGB[ni])<<"\n";
+
+        // Read image  and depthmap from file
         imRGB = cv::imread(string(argv[3])+"/"+vstrImageFilenamesRGB[ni],IMREAD_UNCHANGED);
         imD = cv::imread(string(argv[3])+"/"+vstrImageFilenamesD[ni],IMREAD_UNCHANGED);
+
+        string nameOfSegmentedFile = deriveSegmentName(vstrImageFilenamesRGB[ni]);
+        // cout<<vstrImageFilenamesRGB[ni]<<" "<<nameOfSegmentedFile<<" "<<(string(argv[5]) + "/" + nameOfSegmentedFile)<<"\n";
+        // return 1;
+        segmentationOutput = cv::imread(string(argv[5]) + "/" + nameOfSegmentedFile,IMREAD_UNCHANGED);
+
+        if(segmentationOutput.empty()) {
+
+            cout<<"Failed to load segmentation result at : " <<(string(argv[5]) + "/" + nameOfSegmentedFile)<<"\n";
+            return 1;
+        }
+
+        // cout<<imRGB.rows<<" "<<imRGB.cols<<"\n";
+        // return 1;
+
         double tframe = vTimestamps[ni];
 
         if(imRGB.empty())
@@ -95,7 +140,7 @@ int main(int argc, char **argv)
 #endif
 
         // Pass the image to the SLAM system
-        SLAM.TrackRGBD(imRGB,imD,tframe);
+        SLAM.TrackRGBD(imRGB,imD,tframe,segmentationOutput);
 
 #ifdef COMPILEDWITHC11
         std::chrono::steady_clock::time_point t2 = std::chrono::steady_clock::now();
@@ -142,6 +187,7 @@ int main(int argc, char **argv)
 void LoadImages(const string &strAssociationFilename, vector<string> &vstrImageFilenamesRGB,
                 vector<string> &vstrImageFilenamesD, vector<double> &vTimestamps)
 {
+    
     ifstream fAssociation;
     fAssociation.open(strAssociationFilename.c_str());
     while(!fAssociation.eof())

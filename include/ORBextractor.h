@@ -61,7 +61,8 @@ public:
     // ORB are dispersed on the image using an octree.
     // Mask is ignored in the current implementation.
 
-    int removeKeyPoints(std::vector<std::vector<cv::KeyPoint>>& mvKeysT,std::vector<cv::Point2f> T);
+    bool checkIsDynamic(int r,int c, const cv::Mat &segmentationOutput);
+    int removeKeyPoints(std::vector<std::vector<cv::KeyPoint>>& mvKeysT,std::vector<cv::Point2f> T, const cv::Mat &segmnetationOutput);
     void operator()( cv::InputArray image, cv::InputArray mask,
     std::vector<std::vector<cv::KeyPoint>>& _keypoints);
 

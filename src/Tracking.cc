@@ -204,7 +204,7 @@ cv::Mat Tracking::GrabImageStereo(const cv::Mat &imRectLeft, const cv::Mat &imRe
 }
 
 
-cv::Mat Tracking::GrabImageRGBD(const cv::Mat &imRGB,const cv::Mat &imD, const double &timestamp)
+cv::Mat Tracking::GrabImageRGBD(const cv::Mat &imRGB,const cv::Mat &imD, const double &timestamp, const cv::Mat &segmentationOutput)
 {   
     cv::Mat mImRGB = imRGB;
     mImGray = imRGB;
@@ -229,7 +229,7 @@ cv::Mat Tracking::GrabImageRGBD(const cv::Mat &imRGB,const cv::Mat &imD, const d
         imDepth.convertTo(imDepth,CV_32F,mDepthMapFactor);
 
     mCurrentFrame = Frame(mImGray,imDepth,timestamp,mpORBextractorLeft,mpORBVocabulary,mK,mDistCoef,mbf,mThDepth);
-    mCurrentFrame.removeIncorrectKeyPoints(mImRGB,mImGray,imDepth,mK);
+    mCurrentFrame.removeIncorrectKeyPoints(mImRGB,mImGray,imDepth,mK,segmentationOutput);
 
     Track();
 
