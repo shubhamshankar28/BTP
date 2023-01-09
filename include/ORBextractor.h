@@ -62,7 +62,11 @@ public:
     // Mask is ignored in the current implementation.
 
     bool checkIsDynamic(int r,int c, const cv::Mat &segmentationOutput);
-    int removeKeyPoints(std::vector<std::vector<cv::KeyPoint>>& mvKeysT,std::vector<cv::Point2f> T, const cv::Mat &segmnetationOutput);
+    int removeKeyPointsUsingSegment(std::vector<std::vector<cv::KeyPoint>>& mvKeysT,std::vector<cv::Point2f> T, const cv::Mat &segmnetationOutput);
+    
+    bool isInPerson( const cv::Point2f &coordinate,  const std::vector<std::vector<float>> &detect_result);
+    int removeKeyPointsUsingDetect(std::vector<std::vector<cv::KeyPoint>>& mvKeysT,std::vector<cv::Point2f> T, const std::vector<std::vector<float>> &dynamicObjects);
+    
     void operator()( cv::InputArray image, cv::InputArray mask,
     std::vector<std::vector<cv::KeyPoint>>& _keypoints);
 

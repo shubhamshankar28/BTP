@@ -41,9 +41,31 @@ string deriveSegmentName(string &s) {
     return (fin+suffix);
 }
 
+string deriveObjectName(string &s) {
+    int len = s.size();
+    string fin = s.substr(4,len-8);
+    string suffix = "_objectDetect";
+    return (fin+suffix);
+}
+void retrieveObjectsFromImage(const string &folder,string &name, vector<vector<float>> &dynamicObjects) {
+    ifstream inputFile(folder+"/"+deriveObjectName(name));
+    int t;
+    inputFile >> t;
+    for(int i=0;i<t;++i) {
+        vector<float> temp;
+        for(int j=0;j<5;++j) {
+            float f;
+            inputFile >> f;
+            temp.push_back(f);
+        }
+        dynamicObjects.push_back(temp);
+    }
+    inputFile.close();
+}
+
 int main(int argc, char **argv)
 {
-    if(argc != 6)
+    if(argc != 7)
     {
         cerr << endl << "Usage: ./rgbd_tum path_to_vocabulary path_to_settings path_to_sequence path_to_association" << endl;
         return 1;
@@ -124,6 +146,20 @@ int main(int argc, char **argv)
         // cout<<imRGB.rows<<" "<<imRGB.cols<<"\n";
         // return 1;
 
+        vector<vector<float>> dynamicObjects;
+        retrieveObjectsFromImage(string(argv[6]),vstrImageFilenamesRGB[ni],dynamicObjects);
+
+        // cout<<vstrImageFilenamesRGB[ni]<<"\n";
+        int sz = dynamicObjects.size();
+        // cout<<sz<<"\n";
+        // for(int i=0;i<sz;++i) {
+        //     for(auto &it : dynamicObjects[i]) {
+        //         cout<<it<<" ";
+        //     }
+        //     cout<<"\n";
+        // }
+
+
         double tframe = vTimestamps[ni];
 
         if(imRGB.empty())
@@ -140,7 +176,7 @@ int main(int argc, char **argv)
 #endif
 
         // Pass the image to the SLAM system
-        SLAM.TrackRGBD(imRGB,imD,tframe,segmentationOutput);
+        SLAM.TrackRGBD(imRGB,imD,tframe,segmentationOutput,dynamicObjects);
 
 #ifdef COMPILEDWITHC11
         std::chrono::steady_clock::time_point t2 = std::chrono::steady_clock::now();

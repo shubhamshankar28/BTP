@@ -1041,7 +1041,7 @@ bool ORBextractor::checkIsDynamic(int r, int c, const cv::Mat &segmentedImage) {
     return false;
 }
 
-int ORBextractor::removeKeyPoints(std::vector<std::vector<cv::KeyPoint>>& mvKeysT,std::vector<cv::Point2f> T, const cv::Mat &segmentationOutput) {
+int ORBextractor::removeKeyPointsUsingSegment(std::vector<std::vector<cv::KeyPoint>>& mvKeysT,std::vector<cv::Point2f> T, const cv::Mat &segmentationOutput) {
 
 
     float scale;
@@ -1112,10 +1112,108 @@ int ORBextractor::removeKeyPoints(std::vector<std::vector<cv::KeyPoint>>& mvKeys
 	          }
       }
 
-      std::cout<<"total: "<<total<<" removed: "<<removed<<"\n";
+    //   std::cout<<"total: "<<total<<" removed: "<<removed<<"\n";
       return flag_orb_mov;
 
 }
+
+
+bool ORBextractor::isInPerson( const cv::Point2f &coordinate,  const std::vector<std::vector<float>> &detect_result)
+{
+  bool InPerson = false;
+  for(auto temp: detect_result)
+  {
+      int sz = temp.size();
+      if(sz == 0)
+        break;
+      assert(sz >= 5);
+      if((coordinate.x > temp[1])&& (coordinate.y > temp[2]) && (coordinate.x < temp[3]) && (coordinate.y < temp[4]))
+      {
+        InPerson = true;
+        break;
+      }
+  }
+  return InPerson;
+}
+
+int ORBextractor::removeKeyPointsUsingDetect(std::vector<std::vector<cv::KeyPoint>>& mvKeysT,std::vector<cv::Point2f> T, const std::vector<std::vector<float>> &dynamicObjects) {
+
+
+    float scale;
+    int flag_orb_mov =0;   
+    int height = 480;
+    int width = 640;
+
+
+   // Make further judgment
+    // cout<<"making judgement\n";
+	for (int i = 0; i < T.size(); i++)
+	{
+	    for(int m = -15; m < 15; m++) 
+	    {
+	        for(int n = -15; n < 15; n++)
+	        {
+	            int my = ((int)T[i].y + n) ;
+	            int mx = ((int)T[i].x + m) ;
+		    if( ((int)T[i].y + n) > (height -1) ) my = (height - 1) ;
+	            if( ((int)T[i].y + n) < 1 ) my = 0;
+		    if( ((int)T[i].x + m) > (width -1) ) mx = (width - 1) ;
+		    if( ((int)T[i].x + m) < 1 ) mx = 0;
+		    cv::Point2f my_coordinate(mx,my);
+                // The id of peopel is 0
+            if(isInPerson(my_coordinate, dynamicObjects))
+		    {
+		      flag_orb_mov = 1;
+		      break;
+		    }
+                     
+	        }
+	            if(flag_orb_mov==1)
+	                 break;
+	     }
+	         if(flag_orb_mov==1)
+	            break;
+	}
+	 
+    // cout<<"made judgement "<<flag_orb_mov<<"\n";
+	// Moving
+	if(flag_orb_mov==1)
+	{
+        // cout<<"removal begins\n";
+	    for (int level = 0; level < nlevels; ++level)
+            {
+                vector<cv::KeyPoint>& mkeypoints = mvKeysT[level];
+		        int nkeypointsLevel = (int)mkeypoints.size();
+		        if(nkeypointsLevel==0)
+		                continue;
+		        if (level != 0)
+			        scale = mvScaleFactor[level]; 
+		        else
+			        scale =1; 
+                vector<cv::KeyPoint>::iterator keypoint = mkeypoints.begin();
+               
+                while(keypoint != mkeypoints.end())
+	            {
+		             cv::Point2f search_coord = keypoint->pt * scale;
+		             // Search in detection result
+		             if(search_coord.x >= (width -1)) search_coord.x=(width -1);
+		             if(search_coord.y >= (height -1)) search_coord.y=(height -1) ;
+		             //int label_coord =(int)imS.ptr<uchar>((int)search_coord.y)[(int)search_coord.x];
+		             if(isInPerson(search_coord, dynamicObjects)) 
+		             {
+			            keypoint=mkeypoints.erase(keypoint);		       
+		             }
+		             else
+		             {
+			            keypoint++;
+		             }
+	             }
+	          }
+            // cout<<"Removal done\n";
+      }
+      return flag_orb_mov;
+}
+
 static void computeDescriptors(const Mat& image, vector<KeyPoint>& keypoints, Mat& descriptors,
                                const vector<Point>& pattern)
 {

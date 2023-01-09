@@ -62,8 +62,8 @@ public:
     void ExtractORB(int flag, const cv::Mat &im);
     void ExtractORBDesp(int flag,const cv::Mat &im);
     void specialExtractORBDesp(int flag,const cv::Mat &im);
-    void removeIncorrectKeyPoints(cv::Mat &imRGB, const cv::Mat &imGray, const cv::Mat &imDepth, cv::Mat &K, const cv::Mat &segmentationOutput);
-
+    void removeIncorrectKeyPointsUsingSegment(cv::Mat &imRGB, const cv::Mat &imGray, const cv::Mat &imDepth, cv::Mat &K, const cv::Mat &segmentationOutput);
+    void removeIncorrectKeyPointsUsingDetect(cv::Mat &imRGB, const cv::Mat &imGray, const cv::Mat &imDepth, cv::Mat &K, const std::vector<std::vector<float>> &dynamicObjects);
     // Compute Bag of Words representation.
     void ComputeBoW();
 

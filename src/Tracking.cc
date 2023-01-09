@@ -203,12 +203,14 @@ cv::Mat Tracking::GrabImageStereo(const cv::Mat &imRectLeft, const cv::Mat &imRe
     return mCurrentFrame.mTcw.clone();
 }
 
-
-cv::Mat Tracking::GrabImageRGBD(const cv::Mat &imRGB,const cv::Mat &imD, const double &timestamp, const cv::Mat &segmentationOutput)
+int objectDetectionRun = 0;
+int semanticSegmentationRun = 0;
+cv::Mat Tracking::GrabImageRGBD(const cv::Mat &imRGB,const cv::Mat &imD, const double &timestamp, const cv::Mat &segmentationOutput, const std::vector<std::vector<float>> &dynamicObjects)
 {   
     cv::Mat mImRGB = imRGB;
     mImGray = imRGB;
     cv::Mat imDepth = imD;
+    float threshold = 0.5;
 
     if(mImGray.channels()==3)
     {
@@ -229,8 +231,22 @@ cv::Mat Tracking::GrabImageRGBD(const cv::Mat &imRGB,const cv::Mat &imD, const d
         imDepth.convertTo(imDepth,CV_32F,mDepthMapFactor);
 
     mCurrentFrame = Frame(mImGray,imDepth,timestamp,mpORBextractorLeft,mpORBVocabulary,mK,mDistCoef,mbf,mThDepth);
-    mCurrentFrame.removeIncorrectKeyPoints(mImRGB,mImGray,imDepth,mK,segmentationOutput);
+    float peopleArea = 0.0;
+    for(auto &object : dynamicObjects) {
+        peopleArea += (object[3]-object[1])*(object[4]-object[2]);
+    }
+    float totalArea = 480.0*640.0;
 
+    if(peopleArea/totalArea > threshold) {
+        cout<<"running semantic segmentation for time: " << semanticSegmentationRun<<"\n";
+        mCurrentFrame.removeIncorrectKeyPointsUsingSegment(mImRGB,mImGray,imDepth,mK,segmentationOutput);
+        semanticSegmentationRun++;
+    }
+    else {
+        cout<<"running object detection for time : "<<objectDetectionRun<<"\n";
+        mCurrentFrame.removeIncorrectKeyPointsUsingDetect(mImRGB,mImGray,imDepth,mK,dynamicObjects);  
+        objectDetectionRun++;
+    }
     Track();
 
     return mCurrentFrame.mTcw.clone();

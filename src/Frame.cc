@@ -258,11 +258,11 @@ Frame::Frame(const cv::Mat &imGray, const double &timeStamp, ORBextractor* extra
     AssignFeaturesToGrid();
 }
 
-void Frame::removeIncorrectKeyPoints(cv::Mat &imRGB, const cv::Mat &imGray, const cv::Mat &imDepth, cv::Mat &K, const cv::Mat &segmentationOutput) {
+void Frame::removeIncorrectKeyPointsUsingSegment(cv::Mat &imRGB, const cv::Mat &imGray, const cv::Mat &imDepth, cv::Mat &K, const cv::Mat &segmentationOutput) {
 
     if(!T_M.empty())
     {
-         mpORBextractorLeft->removeKeyPoints(mvKeysTemp,T_M,segmentationOutput);
+         mpORBextractorLeft->removeKeyPointsUsingSegment(mvKeysTemp,T_M,segmentationOutput);
     }
 
     specialExtractORBDesp(0,imGray);
@@ -297,6 +297,48 @@ void Frame::removeIncorrectKeyPoints(cv::Mat &imRGB, const cv::Mat &imGray, cons
 
     AssignFeaturesToGrid();
 }
+
+
+void Frame::removeIncorrectKeyPointsUsingDetect(cv::Mat &imRGB, const cv::Mat &imGray, const cv::Mat &imDepth, cv::Mat &K, const std::vector<std::vector<float>> &dynamicObjects) {
+
+    if(!T_M.empty())
+    {
+         mpORBextractorLeft->removeKeyPointsUsingDetect(mvKeysTemp,T_M,dynamicObjects);
+    }
+
+    specialExtractORBDesp(0,imGray);
+    N = mvKeys.size();
+    if(mvKeys.empty())
+    return;
+
+    UndistortKeyPoints();
+    ComputeStereoFromRGBD(imDepth);
+    mvpMapPoints = vector<MapPoint*>(N,static_cast<MapPoint*>(NULL));
+    mvbOutlier = vector<bool>(N,false);
+
+    // This is done only for the first Frame (or after a change in the calibration)
+    if(mbInitialComputations)
+    {
+        ComputeImageBounds(imGray);
+
+        mfGridElementWidthInv=static_cast<float>(FRAME_GRID_COLS)/static_cast<float>(mnMaxX-mnMinX);
+        mfGridElementHeightInv=static_cast<float>(FRAME_GRID_ROWS)/static_cast<float>(mnMaxY-mnMinY);
+
+        fx = K.at<float>(0,0);
+        fy = K.at<float>(1,1);
+        cx = K.at<float>(0,2);
+        cy = K.at<float>(1,2);
+        invfx = 1.0f/fx;
+        invfy = 1.0f/fy;
+
+        mbInitialComputations=false;
+    }
+
+    mb = mbf/fx;
+
+    AssignFeaturesToGrid();
+}
+
 void Frame::AssignFeaturesToGrid()
 {
     int nReserve = 0.5f*N/(FRAME_GRID_COLS*FRAME_GRID_ROWS);
