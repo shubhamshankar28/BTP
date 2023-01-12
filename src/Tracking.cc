@@ -237,16 +237,19 @@ cv::Mat Tracking::GrabImageRGBD(const cv::Mat &imRGB,const cv::Mat &imD, const d
     }
     float totalArea = 480.0*640.0;
 
-    if(peopleArea/totalArea > threshold) {
-        cout<<"running semantic segmentation for time: " << semanticSegmentationRun<<"\n";
-        mCurrentFrame.removeIncorrectKeyPointsUsingSegment(mImRGB,mImGray,imDepth,mK,segmentationOutput);
-        semanticSegmentationRun++;
-    }
-    else {
-        cout<<"running object detection for time : "<<objectDetectionRun<<"\n";
-        mCurrentFrame.removeIncorrectKeyPointsUsingDetect(mImRGB,mImGray,imDepth,mK,dynamicObjects);  
-        objectDetectionRun++;
-    }
+    // if(peopleArea/totalArea > 0.5) {
+    //     cout<<"running semantic segmentation for time: " << semanticSegmentationRun<<"\n";
+    //     mCurrentFrame.removeIncorrectKeyPointsUsingSegment(mImRGB,mImGray,imDepth,mK,segmentationOutput);
+    //     semanticSegmentationRun++;
+    // }
+    // else {
+    //     cout<<"running object detection for time : "<<objectDetectionRun<<"\n";
+    //     mCurrentFrame.removeIncorrectKeyPointsUsingDetect(mImRGB,mImGray,imDepth,mK,dynamicObjects);  
+    //     objectDetectionRun++;
+    // }
+    // cout<<"calling incorrect keypoints using detect and segment\n";
+    mCurrentFrame.removeIncorrectKeyPointsUsingDetectAndSegment(mImRGB,mImGray,imDepth,mK,dynamicObjects,segmentationOutput); 
+    // cout<<"returning from remove incorrect keypoints using detect and segment\n";
     Track();
 
     return mCurrentFrame.mTcw.clone();

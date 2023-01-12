@@ -149,7 +149,8 @@ int main(int argc, char **argv)
         vector<vector<float>> dynamicObjects;
         retrieveObjectsFromImage(string(argv[6]),vstrImageFilenamesRGB[ni],dynamicObjects);
 
-        // cout<<vstrImageFilenamesRGB[ni]<<"\n";
+        cout<<(segmentationOutput.rows)<<" "<<(segmentationOutput.cols)<<"\n";
+        cout<<"processing : "<<vstrImageFilenamesRGB[ni]<<" segmentation file is : "<<(string(argv[5]) + "/" + nameOfSegmentedFile)<<"\n";
         int sz = dynamicObjects.size();
         // cout<<sz<<"\n";
         // for(int i=0;i<sz;++i) {
@@ -175,9 +176,18 @@ int main(int argc, char **argv)
         std::chrono::monotonic_clock::time_point t1 = std::chrono::monotonic_clock::now();
 #endif
 
+
+
+    int blueVal= segmentationOutput.at<Vec3b>(209,527)[0];
+    int greenVal= segmentationOutput.at<Vec3b>(209,527)[1];
+    int redVal= segmentationOutput.at<Vec3b>(209,527)[2];
+
+    cout<<"output of pixel : 527 209 is "<<(blueVal)<<" "<<(greenVal)<<" "<<(redVal)<<"  \n";
         // Pass the image to the SLAM system
         SLAM.TrackRGBD(imRGB,imD,tframe,segmentationOutput,dynamicObjects);
-
+        // if(vstrImageFilenamesRGB[ni] == "rgb/1341846313.789969.png") {
+        //     return 0;   
+        // }
 #ifdef COMPILEDWITHC11
         std::chrono::steady_clock::time_point t2 = std::chrono::steady_clock::now();
 #else

@@ -1,0 +1,1733 @@
+0 /home/cse/BTP/Examples/RGB-D/rgbd_tum
+1 Vocabulary/ORBvoc.txt
+2 /home/cse/BTP/Examples/RGB-D/TUM3.yaml
+3 /home/cse/Downloads/rgbd_dataset_freiburg3_walking_xyz
+4 /home/cse/Downloads/rgbd_dataset_freiburg3_walking_xyz/associations.txt
+5 /home/cse/segmentationTest/segmentationResults
+6 /home/cse/segmentationTest/objectDetectionResults
+
+ORB-SLAM2 Copyright (C) 2014-2016 Raul Mur-Artal, University of Zaragoza.
+This program comes with ABSOLUTELY NO WARRANTY;
+This is free software, and you are welcome to redistribute it
+under certain conditions. See LICENSE.txt.
+
+Input sensor was set to: RGB-D
+
+Loading ORB Vocabulary. This could take a while...
+Vocabulary loaded!
+
+
+Camera Parameters: 
+- fx: 535.4
+- fy: 539.2
+- cx: 320.1
+- cy: 247.6
+- k1: 0
+- k2: 0
+- p1: 0
+- p2: 0
+- fps: 30
+- color order: RGB (ignored if grayscale)
+
+ORB Extractor Parameters: 
+- Number of Features: 1000
+- Scale Levels: 8
+- Scale Factor: 1.2
+- Initial Fast Threshold: 20
+- Minimum Fast Threshold: 7
+
+Depth Threshold (Close/Far Points): 2.98842
+
+-------
+Start processing sequence ...
+Images in the sequence: 827
+
+rgb/1341846313.592026.png
+running object detection for time : 0
+New map created with 718 points
+rgb/1341846313.654184.png
+running object detection for time : 1
+rgb/1341846313.686156.png
+running object detection for time : 2
+rgb/1341846313.721918.png
+running object detection for time : 3
+rgb/1341846313.753994.png
+running object detection for time : 4
+rgb/1341846313.789969.png
+running object detection for time : 5
+rgb/1341846313.822075.png
+running object detection for time : 6
+rgb/1341846313.853928.png
+running object detection for time : 7
+rgb/1341846313.890011.png
+running object detection for time : 8
+rgb/1341846313.922055.png
+running object detection for time : 9
+rgb/1341846313.957927.png
+running object detection for time : 10
+rgb/1341846313.990058.png
+running object detection for time : 11
+rgb/1341846314.022042.png
+running object detection for time : 12
+rgb/1341846314.057816.png
+running object detection for time : 13
+rgb/1341846314.089801.png
+running object detection for time : 14
+rgb/1341846314.122037.png
+running object detection for time : 15
+rgb/1341846314.157989.png
+running object detection for time : 16
+rgb/1341846314.190094.png
+running object detection for time : 17
+rgb/1341846314.225969.png
+running object detection for time : 18
+rgb/1341846314.257923.png
+running object detection for time : 19
+rgb/1341846314.290052.png
+running object detection for time : 20
+rgb/1341846314.325981.png
+running object detection for time : 21
+rgb/1341846314.357905.png
+running object detection for time : 22
+rgb/1341846314.389899.png
+running object detection for time : 23
+rgb/1341846314.427905.png
+running object detection for time : 24
+rgb/1341846314.493987.png
+running object detection for time : 25
+rgb/1341846314.526085.png
+running object detection for time : 26
+rgb/1341846314.558292.png
+running object detection for time : 27
+rgb/1341846314.594085.png
+running object detection for time : 28
+rgb/1341846314.626096.png
+running object detection for time : 29
+rgb/1341846314.658455.png
+running object detection for time : 30
+rgb/1341846314.694004.png
+running object detection for time : 31
+rgb/1341846314.725910.png
+running object detection for time : 32
+rgb/1341846314.761942.png
+running object detection for time : 33
+rgb/1341846314.794030.png
+running object detection for time : 34
+rgb/1341846314.826092.png
+running object detection for time : 35
+rgb/1341846314.862145.png
+running object detection for time : 36
+rgb/1341846314.894072.png
+running object detection for time : 37
+rgb/1341846314.925969.png
+running object detection for time : 38
+rgb/1341846314.961937.png
+running object detection for time : 39
+rgb/1341846314.994564.png
+running object detection for time : 40
+rgb/1341846315.029900.png
+running object detection for time : 41
+rgb/1341846315.061965.png
+running object detection for time : 42
+rgb/1341846315.094388.png
+running object detection for time : 43
+rgb/1341846315.129851.png
+running object detection for time : 44
+rgb/1341846315.161941.png
+running object detection for time : 45
+rgb/1341846315.197984.png
+running object detection for time : 46
+rgb/1341846315.230076.png
+running object detection for time : 47
+rgb/1341846315.262069.png
+running object detection for time : 48
+rgb/1341846315.298000.png
+running object detection for time : 49
+rgb/1341846315.329931.png
+running object detection for time : 50
+rgb/1341846315.361981.png
+running object detection for time : 51
+rgb/1341846315.397962.png
+running object detection for time : 52
+rgb/1341846315.429923.png
+running object detection for time : 53
+rgb/1341846315.466047.png
+running object detection for time : 54
+rgb/1341846315.497883.png
+running object detection for time : 55
+rgb/1341846315.530008.png
+running object detection for time : 56
+rgb/1341846315.566108.png
+running object detection for time : 57
+rgb/1341846315.597986.png
+running object detection for time : 58
+rgb/1341846315.630109.png
+running object detection for time : 59
+rgb/1341846315.666042.png
+running object detection for time : 60
+rgb/1341846315.698114.png
+running object detection for time : 61
+rgb/1341846315.733985.png
+running semantic segmentation for time: 0
+rgb/1341846315.766041.png
+running object detection for time : 62
+rgb/1341846315.798188.png
+running object detection for time : 63
+rgb/1341846315.834140.png
+running object detection for time : 64
+rgb/1341846315.866751.png
+running object detection for time : 65
+rgb/1341846315.898492.png
+running object detection for time : 66
+rgb/1341846315.936901.png
+running object detection for time : 67
+rgb/1341846315.966572.png
+running object detection for time : 68
+rgb/1341846316.034204.png
+running object detection for time : 69
+rgb/1341846316.066113.png
+running object detection for time : 70
+rgb/1341846316.101867.png
+running object detection for time : 71
+rgb/1341846316.134066.png
+running object detection for time : 72
+rgb/1341846316.202049.png
+running object detection for time : 73
+rgb/1341846316.233979.png
+running object detection for time : 74
+rgb/1341846316.270052.png
+running object detection for time : 75
+rgb/1341846316.301915.png
+running object detection for time : 76
+rgb/1341846316.334208.png
+running object detection for time : 77
+rgb/1341846316.370006.png
+running object detection for time : 78
+rgb/1341846316.401994.png
+running object detection for time : 79
+rgb/1341846316.438069.png
+running object detection for time : 80
+rgb/1341846316.470076.png
+running object detection for time : 81
+rgb/1341846316.502034.png
+running object detection for time : 82
+rgb/1341846316.537975.png
+running object detection for time : 83
+rgb/1341846316.570121.png
+running object detection for time : 84
+rgb/1341846316.601885.png
+running object detection for time : 85
+rgb/1341846316.638009.png
+running object detection for time : 86
+rgb/1341846316.669925.png
+running object detection for time : 87
+rgb/1341846316.705941.png
+running object detection for time : 88
+rgb/1341846316.738062.png
+running object detection for time : 89
+rgb/1341846316.770433.png
+running object detection for time : 90
+rgb/1341846316.805932.png
+running object detection for time : 91
+rgb/1341846316.838029.png
+running object detection for time : 92
+rgb/1341846316.870034.png
+running object detection for time : 93
+rgb/1341846316.906344.png
+running object detection for time : 94
+rgb/1341846316.937940.png
+running object detection for time : 95
+rgb/1341846316.973994.png
+running object detection for time : 96
+rgb/1341846317.005913.png
+running object detection for time : 97
+rgb/1341846317.037936.png
+running object detection for time : 98
+rgb/1341846317.073972.png
+running object detection for time : 99
+rgb/1341846317.106113.png
+running object detection for time : 100
+rgb/1341846317.137887.png
+running object detection for time : 101
+rgb/1341846317.173970.png
+running object detection for time : 102
+rgb/1341846317.205887.png
+running object detection for time : 103
+rgb/1341846317.248131.png
+running object detection for time : 104
+rgb/1341846317.306289.png
+running object detection for time : 105
+rgb/1341846317.348137.png
+running object detection for time : 106
+rgb/1341846317.410120.png
+running object detection for time : 107
+rgb/1341846317.442569.png
+running object detection for time : 108
+rgb/1341846317.474010.png
+running object detection for time : 109
+rgb/1341846317.509927.png
+running object detection for time : 110
+rgb/1341846317.542282.png
+running object detection for time : 111
+rgb/1341846317.573943.png
+running object detection for time : 112
+rgb/1341846317.610159.png
+running object detection for time : 113
+rgb/1341846317.643553.png
+running object detection for time : 114
+rgb/1341846317.677993.png
+running object detection for time : 115
+rgb/1341846317.709996.png
+running object detection for time : 116
+rgb/1341846317.741834.png
+running object detection for time : 117
+rgb/1341846317.777923.png
+running object detection for time : 118
+rgb/1341846317.810021.png
+running object detection for time : 119
+rgb/1341846317.841886.png
+running object detection for time : 120
+rgb/1341846317.878017.png
+running object detection for time : 121
+rgb/1341846317.909910.png
+running object detection for time : 122
+rgb/1341846317.946031.png
+running object detection for time : 123
+rgb/1341846317.978041.png
+running object detection for time : 124
+rgb/1341846318.009897.png
+running object detection for time : 125
+rgb/1341846318.045949.png
+running object detection for time : 126
+rgb/1341846318.078074.png
+running object detection for time : 127
+rgb/1341846318.109894.png
+running object detection for time : 128
+rgb/1341846318.145957.png
+running object detection for time : 129
+rgb/1341846318.178001.png
+running object detection for time : 130
+rgb/1341846318.214074.png
+running object detection for time : 131
+rgb/1341846318.245970.png
+running object detection for time : 132
+rgb/1341846318.278018.png
+running object detection for time : 133
+rgb/1341846318.313937.png
+running object detection for time : 134
+rgb/1341846318.345989.png
+running object detection for time : 135
+rgb/1341846318.382046.png
+running object detection for time : 136
+rgb/1341846318.414072.png
+running object detection for time : 137
+rgb/1341846318.446035.png
+running object detection for time : 138
+rgb/1341846318.482196.png
+running object detection for time : 139
+rgb/1341846318.514144.png
+running object detection for time : 140
+rgb/1341846318.546259.png
+running object detection for time : 141
+rgb/1341846318.582042.png
+running object detection for time : 142
+rgb/1341846318.614115.png
+running object detection for time : 143
+rgb/1341846318.650038.png
+running object detection for time : 144
+rgb/1341846318.682350.png
+running object detection for time : 145
+rgb/1341846318.714063.png
+running object detection for time : 146
+rgb/1341846318.749905.png
+running object detection for time : 147
+rgb/1341846318.782036.png
+running object detection for time : 148
+rgb/1341846318.814121.png
+running object detection for time : 149
+rgb/1341846318.850072.png
+running object detection for time : 150
+rgb/1341846318.883516.png
+running object detection for time : 151
+rgb/1341846318.918047.png
+running object detection for time : 152
+rgb/1341846318.950044.png
+running object detection for time : 153
+rgb/1341846318.982028.png
+running object detection for time : 154
+rgb/1341846319.018123.png
+running object detection for time : 155
+rgb/1341846319.050745.png
+running object detection for time : 156
+rgb/1341846319.081905.png
+running object detection for time : 157
+rgb/1341846319.117976.png
+running object detection for time : 158
+rgb/1341846319.150093.png
+running object detection for time : 159
+rgb/1341846319.186069.png
+running object detection for time : 160
+rgb/1341846319.218149.png
+running object detection for time : 161
+rgb/1341846319.250034.png
+running object detection for time : 162
+rgb/1341846319.286594.png
+running object detection for time : 163
+rgb/1341846319.318034.png
+running object detection for time : 164
+rgb/1341846319.350268.png
+running object detection for time : 165
+rgb/1341846319.386163.png
+running object detection for time : 166
+rgb/1341846319.418386.png
+running object detection for time : 167
+rgb/1341846319.453961.png
+running object detection for time : 168
+rgb/1341846319.486271.png
+running object detection for time : 169
+rgb/1341846319.554083.png
+running object detection for time : 170
+rgb/1341846319.586296.png
+running object detection for time : 171
+rgb/1341846319.622031.png
+running object detection for time : 172
+rgb/1341846319.653962.png
+running object detection for time : 173
+rgb/1341846319.686352.png
+running object detection for time : 174
+rgb/1341846319.721992.png
+running object detection for time : 175
+rgb/1341846319.754063.png
+running object detection for time : 176
+rgb/1341846319.786397.png
+running object detection for time : 177
+rgb/1341846319.822008.png
+running object detection for time : 178
+rgb/1341846319.853917.png
+running object detection for time : 179
+rgb/1341846319.889942.png
+running object detection for time : 180
+rgb/1341846319.922039.png
+running object detection for time : 181
+rgb/1341846319.953946.png
+running object detection for time : 182
+rgb/1341846319.990054.png
+running object detection for time : 183
+rgb/1341846320.028122.png
+running object detection for time : 184
+rgb/1341846320.090047.png
+running object detection for time : 185
+rgb/1341846320.122011.png
+running object detection for time : 186
+rgb/1341846320.157952.png
+running object detection for time : 187
+rgb/1341846320.190003.png
+running object detection for time : 188
+rgb/1341846320.221941.png
+running object detection for time : 189
+rgb/1341846320.258015.png
+running object detection for time : 190
+rgb/1341846320.289887.png
+running object detection for time : 191
+rgb/1341846320.321954.png
+running object detection for time : 192
+rgb/1341846320.357890.png
+running object detection for time : 193
+rgb/1341846320.390064.png
+running object detection for time : 194
+rgb/1341846320.426544.png
+running object detection for time : 195
+rgb/1341846320.458122.png
+running object detection for time : 196
+rgb/1341846320.490186.png
+running object detection for time : 197
+rgb/1341846320.525911.png
+running object detection for time : 198
+rgb/1341846320.558091.png
+running object detection for time : 199
+rgb/1341846320.594093.png
+running object detection for time : 200
+rgb/1341846320.631955.png
+running object detection for time : 201
+rgb/1341846320.664916.png
+running object detection for time : 202
+rgb/1341846320.699927.png
+running object detection for time : 203
+rgb/1341846320.731822.png
+running object detection for time : 204
+rgb/1341846320.763877.png
+running object detection for time : 205
+rgb/1341846320.799999.png
+running object detection for time : 206
+rgb/1341846320.831871.png
+running object detection for time : 207
+rgb/1341846320.863887.png
+running object detection for time : 208
+rgb/1341846320.900014.png
+running object detection for time : 209
+rgb/1341846320.931889.png
+running object detection for time : 210
+rgb/1341846320.967866.png
+running object detection for time : 211
+rgb/1341846321.000017.png
+running object detection for time : 212
+rgb/1341846321.031860.png
+running object detection for time : 213
+rgb/1341846321.068047.png
+running object detection for time : 214
+rgb/1341846321.099840.png
+running object detection for time : 215
+rgb/1341846321.131821.png
+running object detection for time : 216
+rgb/1341846321.167887.png
+running object detection for time : 217
+rgb/1341846321.200042.png
+running object detection for time : 218
+rgb/1341846321.231950.png
+running object detection for time : 219
+rgb/1341846321.267939.png
+running object detection for time : 220
+rgb/1341846321.299948.png
+running object detection for time : 221
+rgb/1341846321.331858.png
+running object detection for time : 222
+rgb/1341846321.367913.png
+running object detection for time : 223
+rgb/1341846321.399897.png
+running object detection for time : 224
+rgb/1341846321.435994.png
+running object detection for time : 225
+rgb/1341846321.467946.png
+running object detection for time : 226
+rgb/1341846321.499882.png
+running object detection for time : 227
+rgb/1341846321.536109.png
+running object detection for time : 228
+rgb/1341846321.568960.png
+running object detection for time : 229
+rgb/1341846321.603938.png
+running object detection for time : 230
+rgb/1341846321.637163.png
+running object detection for time : 231
+rgb/1341846321.668306.png
+running object detection for time : 232
+rgb/1341846321.704411.png
+running object detection for time : 233
+rgb/1341846321.736861.png
+running object detection for time : 234
+rgb/1341846321.771881.png
+running object detection for time : 235
+rgb/1341846321.804114.png
+running object detection for time : 236
+rgb/1341846321.836152.png
+running object detection for time : 237
+rgb/1341846321.871882.png
+running object detection for time : 238
+rgb/1341846321.904074.png
+running object detection for time : 239
+rgb/1341846321.939847.png
+running object detection for time : 240
+rgb/1341846322.004094.png
+running object detection for time : 241
+rgb/1341846322.066178.png
+running object detection for time : 242
+rgb/1341846322.107979.png
+running object detection for time : 243
+rgb/1341846322.166164.png
+running object detection for time : 244
+rgb/1341846322.202932.png
+running object detection for time : 245
+rgb/1341846322.234093.png
+running object detection for time : 246
+rgb/1341846322.265941.png
+running object detection for time : 247
+rgb/1341846322.301996.png
+running object detection for time : 248
+rgb/1341846322.333949.png
+running object detection for time : 249
+rgb/1341846322.369871.png
+running object detection for time : 250
+rgb/1341846322.402292.png
+running object detection for time : 251
+rgb/1341846322.433955.png
+running object detection for time : 252
+rgb/1341846322.470030.png
+running object detection for time : 253
+rgb/1341846322.502433.png
+running object detection for time : 254
+rgb/1341846322.534002.png
+running object detection for time : 255
+rgb/1341846322.570196.png
+running object detection for time : 256
+rgb/1341846322.601920.png
+running object detection for time : 257
+rgb/1341846322.638119.png
+running object detection for time : 258
+rgb/1341846322.669947.png
+running object detection for time : 259
+rgb/1341846322.702026.png
+running object detection for time : 260
+rgb/1341846322.738006.png
+running object detection for time : 261
+rgb/1341846322.770087.png
+running object detection for time : 262
+rgb/1341846322.806047.png
+running object detection for time : 263
+rgb/1341846322.838063.png
+running object detection for time : 264
+rgb/1341846322.870081.png
+running object detection for time : 265
+rgb/1341846322.906018.png
+running object detection for time : 266
+rgb/1341846322.938349.png
+running object detection for time : 267
+rgb/1341846322.970069.png
+running object detection for time : 268
+rgb/1341846323.011820.png
+running object detection for time : 269
+rgb/1341846323.073951.png
+running object detection for time : 270
+rgb/1341846323.105962.png
+running object detection for time : 271
+rgb/1341846323.138158.png
+running object detection for time : 272
+rgb/1341846323.174092.png
+running object detection for time : 273
+rgb/1341846323.206059.png
+running object detection for time : 274
+rgb/1341846323.238053.png
+running object detection for time : 275
+rgb/1341846323.273997.png
+running object detection for time : 276
+rgb/1341846323.305946.png
+running object detection for time : 277
+rgb/1341846323.342027.png
+running object detection for time : 278
+rgb/1341846323.374048.png
+running object detection for time : 279
+rgb/1341846323.405987.png
+running object detection for time : 280
+rgb/1341846323.441956.png
+running object detection for time : 281
+rgb/1341846323.473878.png
+running object detection for time : 282
+rgb/1341846323.506129.png
+running object detection for time : 283
+rgb/1341846323.541972.png
+running object detection for time : 284
+rgb/1341846323.573913.png
+running object detection for time : 285
+rgb/1341846323.609927.png
+running object detection for time : 286
+rgb/1341846323.642014.png
+running object detection for time : 287
+rgb/1341846323.674081.png
+running object detection for time : 288
+rgb/1341846323.710069.png
+running object detection for time : 289
+rgb/1341846323.742111.png
+running object detection for time : 290
+rgb/1341846323.774928.png
+running object detection for time : 291
+rgb/1341846323.810012.png
+running object detection for time : 292
+rgb/1341846323.842207.png
+running object detection for time : 293
+rgb/1341846323.878019.png
+running object detection for time : 294
+rgb/1341846323.909826.png
+running object detection for time : 295
+rgb/1341846323.942459.png
+running object detection for time : 296
+rgb/1341846323.978055.png
+running object detection for time : 297
+rgb/1341846324.015934.png
+running object detection for time : 298
+rgb/1341846324.047722.png
+running object detection for time : 299
+rgb/1341846324.083904.png
+running object detection for time : 300
+rgb/1341846324.115968.png
+running object detection for time : 301
+rgb/1341846324.151967.png
+running object detection for time : 302
+rgb/1341846324.183941.png
+running object detection for time : 303
+rgb/1341846324.219984.png
+running object detection for time : 304
+rgb/1341846324.251968.png
+running object detection for time : 305
+rgb/1341846324.284052.png
+running object detection for time : 306
+rgb/1341846324.319880.png
+running object detection for time : 307
+rgb/1341846324.351917.png
+running object detection for time : 308
+rgb/1341846324.388001.png
+running object detection for time : 309
+rgb/1341846324.419908.png
+running object detection for time : 310
+rgb/1341846324.452027.png
+running object detection for time : 311
+rgb/1341846324.487928.png
+running object detection for time : 312
+rgb/1341846324.519985.png
+running object detection for time : 313
+rgb/1341846324.556001.png
+running object detection for time : 314
+rgb/1341846324.587888.png
+running object detection for time : 315
+rgb/1341846324.620086.png
+running object detection for time : 316
+rgb/1341846324.655955.png
+running object detection for time : 317
+rgb/1341846324.688082.png
+running object detection for time : 318
+rgb/1341846324.755922.png
+running object detection for time : 319
+rgb/1341846324.814016.png
+running object detection for time : 320
+rgb/1341846324.849979.png
+running object detection for time : 321
+rgb/1341846324.881924.png
+running object detection for time : 322
+rgb/1341846324.913902.png
+running object detection for time : 323
+rgb/1341846324.949999.png
+running object detection for time : 324
+rgb/1341846324.981922.png
+running object detection for time : 325
+rgb/1341846325.018013.png
+running object detection for time : 326
+rgb/1341846325.050079.png
+running object detection for time : 327
+rgb/1341846325.081901.png
+running object detection for time : 328
+rgb/1341846325.118531.png
+running object detection for time : 329
+rgb/1341846325.149933.png
+running object detection for time : 330
+rgb/1341846325.181925.png
+running object detection for time : 331
+rgb/1341846325.218055.png
+running object detection for time : 332
+rgb/1341846325.249811.png
+running object detection for time : 333
+rgb/1341846325.285925.png
+running object detection for time : 334
+rgb/1341846325.317988.png
+running object detection for time : 335
+rgb/1341846325.349844.png
+running object detection for time : 336
+rgb/1341846325.387302.png
+running object detection for time : 337
+rgb/1341846325.417931.png
+running object detection for time : 338
+rgb/1341846325.450747.png
+running object detection for time : 339
+rgb/1341846325.485954.png
+running object detection for time : 340
+rgb/1341846325.517875.png
+running object detection for time : 341
+rgb/1341846325.553859.png
+running object detection for time : 342
+rgb/1341846325.585855.png
+running object detection for time : 343
+rgb/1341846325.617990.png
+running object detection for time : 344
+rgb/1341846325.653982.png
+running object detection for time : 345
+rgb/1341846325.685819.png
+running object detection for time : 346
+rgb/1341846325.717857.png
+running object detection for time : 347
+rgb/1341846325.754083.png
+running object detection for time : 348
+rgb/1341846325.786087.png
+running object detection for time : 349
+rgb/1341846325.821856.png
+running object detection for time : 350
+rgb/1341846325.853827.png
+running object detection for time : 351
+rgb/1341846325.885958.png
+running object detection for time : 352
+rgb/1341846325.921984.png
+running object detection for time : 353
+rgb/1341846325.953899.png
+running object detection for time : 354
+rgb/1341846325.985823.png
+running object detection for time : 355
+rgb/1341846326.021991.png
+running object detection for time : 356
+rgb/1341846326.054055.png
+running object detection for time : 357
+rgb/1341846326.089984.png
+running object detection for time : 358
+rgb/1341846326.121822.png
+running object detection for time : 359
+rgb/1341846326.154079.png
+running object detection for time : 360
+rgb/1341846326.190178.png
+running object detection for time : 361
+rgb/1341846326.222162.png
+running object detection for time : 362
+rgb/1341846326.259181.png
+running object detection for time : 363
+rgb/1341846326.322766.png
+running object detection for time : 364
+rgb/1341846326.359773.png
+running object detection for time : 365
+rgb/1341846326.392109.png
+running object detection for time : 366
+rgb/1341846326.423985.png
+running object detection for time : 367
+rgb/1341846326.459869.png
+running object detection for time : 368
+rgb/1341846326.526163.png
+running object detection for time : 369
+rgb/1341846326.560211.png
+running object detection for time : 370
+rgb/1341846326.591828.png
+running object detection for time : 371
+rgb/1341846326.627027.png
+running object detection for time : 372
+rgb/1341846326.658442.png
+running object detection for time : 373
+rgb/1341846326.694856.png
+running object detection for time : 374
+rgb/1341846326.726206.png
+running object detection for time : 375
+rgb/1341846326.762753.png
+running object detection for time : 376
+rgb/1341846326.826821.png
+running object detection for time : 377
+rgb/1341846326.858887.png
+running object detection for time : 378
+rgb/1341846326.895360.png
+running object detection for time : 379
+rgb/1341846326.926897.png
+running object detection for time : 380
+rgb/1341846326.958888.png
+running object detection for time : 381
+rgb/1341846326.994594.png
+running object detection for time : 382
+rgb/1341846327.026301.png
+running object detection for time : 383
+rgb/1341846327.063945.png
+running object detection for time : 384
+rgb/1341846327.094662.png
+running object detection for time : 385
+rgb/1341846327.128901.png
+running object detection for time : 386
+rgb/1341846327.161940.png
+running object detection for time : 387
+rgb/1341846327.193867.png
+running object detection for time : 388
+rgb/1341846327.229885.png
+running object detection for time : 389
+rgb/1341846327.262014.png
+running object detection for time : 390
+rgb/1341846327.294023.png
+running object detection for time : 391
+rgb/1341846327.330015.png
+running object detection for time : 392
+rgb/1341846327.361939.png
+running object detection for time : 393
+rgb/1341846327.393887.png
+running object detection for time : 394
+rgb/1341846327.429966.png
+running object detection for time : 395
+rgb/1341846327.461965.png
+running object detection for time : 396
+rgb/1341846327.497931.png
+running object detection for time : 397
+rgb/1341846327.530068.png
+running object detection for time : 398
+rgb/1341846327.561895.png
+running object detection for time : 399
+rgb/1341846327.598010.png
+running object detection for time : 400
+rgb/1341846327.629945.png
+running object detection for time : 401
+rgb/1341846327.662003.png
+running object detection for time : 402
+rgb/1341846327.697919.png
+running object detection for time : 403
+rgb/1341846327.730075.png
+running object detection for time : 404
+rgb/1341846327.766017.png
+running object detection for time : 405
+rgb/1341846327.797917.png
+running object detection for time : 406
+rgb/1341846327.830054.png
+running object detection for time : 407
+rgb/1341846327.865944.png
+running object detection for time : 408
+rgb/1341846327.898010.png
+running object detection for time : 409
+rgb/1341846327.929991.png
+running object detection for time : 410
+rgb/1341846327.966065.png
+running object detection for time : 411
+rgb/1341846327.998073.png
+running object detection for time : 412
+rgb/1341846328.034045.png
+running object detection for time : 413
+rgb/1341846328.065993.png
+running object detection for time : 414
+rgb/1341846328.098045.png
+running object detection for time : 415
+rgb/1341846328.133967.png
+running object detection for time : 416
+rgb/1341846328.166023.png
+running object detection for time : 417
+rgb/1341846328.198018.png
+running object detection for time : 418
+rgb/1341846328.234044.png
+running object detection for time : 419
+rgb/1341846328.265899.png
+running object detection for time : 420
+rgb/1341846328.302051.png
+running object detection for time : 421
+rgb/1341846328.333917.png
+running object detection for time : 422
+rgb/1341846328.366008.png
+running object detection for time : 423
+rgb/1341846328.402010.png
+running object detection for time : 424
+rgb/1341846328.433920.png
+running object detection for time : 425
+rgb/1341846328.470003.png
+running object detection for time : 426
+rgb/1341846328.502194.png
+running object detection for time : 427
+rgb/1341846328.534033.png
+running object detection for time : 428
+rgb/1341846328.570125.png
+running object detection for time : 429
+rgb/1341846328.602804.png
+running object detection for time : 430
+rgb/1341846328.672663.png
+running object detection for time : 431
+rgb/1341846328.702975.png
+running object detection for time : 432
+rgb/1341846328.770129.png
+running object detection for time : 433
+rgb/1341846328.802331.png
+running object detection for time : 434
+rgb/1341846328.838051.png
+running object detection for time : 435
+rgb/1341846328.869939.png
+running object detection for time : 436
+rgb/1341846328.904486.png
+running object detection for time : 437
+rgb/1341846328.939814.png
+running object detection for time : 438
+rgb/1341846328.970217.png
+running object detection for time : 439
+rgb/1341846329.006232.png
+running object detection for time : 440
+rgb/1341846329.038243.png
+running object detection for time : 441
+rgb/1341846329.106125.png
+running object detection for time : 442
+rgb/1341846329.138340.png
+running object detection for time : 443
+rgb/1341846329.169991.png
+running object detection for time : 444
+rgb/1341846329.208656.png
+running object detection for time : 445
+rgb/1341846329.238169.png
+running object detection for time : 446
+rgb/1341846329.273827.png
+running object detection for time : 447
+rgb/1341846329.306052.png
+running object detection for time : 448
+rgb/1341846329.338104.png
+running object detection for time : 449
+rgb/1341846329.373907.png
+running object detection for time : 450
+rgb/1341846329.405985.png
+running object detection for time : 451
+rgb/1341846329.442057.png
+running object detection for time : 452
+rgb/1341846329.473950.png
+running object detection for time : 453
+rgb/1341846329.506147.png
+running object detection for time : 454
+rgb/1341846329.542121.png
+running object detection for time : 455
+rgb/1341846329.574086.png
+running object detection for time : 456
+rgb/1341846329.606387.png
+running object detection for time : 457
+rgb/1341846329.641955.png
+running object detection for time : 458
+rgb/1341846329.681570.png
+running object detection for time : 459
+rgb/1341846329.748113.png
+running object detection for time : 460
+rgb/1341846329.810175.png
+running object detection for time : 461
+rgb/1341846329.842255.png
+running object detection for time : 462
+rgb/1341846329.874044.png
+running object detection for time : 463
+rgb/1341846329.910073.png
+running object detection for time : 464
+rgb/1341846329.942009.png
+running object detection for time : 465
+rgb/1341846329.978087.png
+running object detection for time : 466
+rgb/1341846330.016305.png
+running object detection for time : 467
+rgb/1341846330.048192.png
+running object detection for time : 468
+rgb/1341846330.080418.png
+running object detection for time : 469
+rgb/1341846330.115886.png
+running object detection for time : 470
+rgb/1341846330.147839.png
+running object detection for time : 471
+rgb/1341846330.181257.png
+running object detection for time : 472
+rgb/1341846330.215852.png
+running object detection for time : 473
+rgb/1341846330.247833.png
+running object detection for time : 474
+rgb/1341846330.283913.png
+running object detection for time : 475
+rgb/1341846330.316011.png
+running object detection for time : 476
+rgb/1341846330.347868.png
+running object detection for time : 477
+rgb/1341846330.383835.png
+running object detection for time : 478
+rgb/1341846330.415934.png
+running object detection for time : 479
+rgb/1341846330.452561.png
+running object detection for time : 480
+rgb/1341846330.483903.png
+running object detection for time : 481
+rgb/1341846330.515970.png
+running object detection for time : 482
+rgb/1341846330.552099.png
+running object detection for time : 483
+rgb/1341846330.583876.png
+running object detection for time : 484
+rgb/1341846330.619992.png
+running object detection for time : 485
+rgb/1341846330.652136.png
+running object detection for time : 486
+rgb/1341846330.683796.png
+running object detection for time : 487
+rgb/1341846330.719991.png
+running object detection for time : 488
+rgb/1341846330.752103.png
+running object detection for time : 489
+rgb/1341846330.787952.png
+running object detection for time : 490
+rgb/1341846330.819823.png
+running object detection for time : 491
+rgb/1341846330.852208.png
+running object detection for time : 492
+rgb/1341846330.914111.png
+running object detection for time : 493
+rgb/1341846330.949903.png
+running object detection for time : 494
+rgb/1341846330.981986.png
+running object detection for time : 495
+rgb/1341846331.014111.png
+running object detection for time : 496
+rgb/1341846331.082139.png
+running object detection for time : 497
+rgb/1341846331.114334.png
+running object detection for time : 498
+rgb/1341846331.149989.png
+running object detection for time : 499
+rgb/1341846331.181954.png
+running object detection for time : 500
+rgb/1341846331.218151.png
+running object detection for time : 501
+rgb/1341846331.249914.png
+running object detection for time : 502
+rgb/1341846331.318141.png
+running object detection for time : 503
+rgb/1341846331.349926.png
+running object detection for time : 504
+rgb/1341846331.382003.png
+running object detection for time : 505
+rgb/1341846331.418008.png
+running object detection for time : 506
+rgb/1341846331.450327.png
+running object detection for time : 507
+rgb/1341846331.486219.png
+running object detection for time : 508
+rgb/1341846331.518344.png
+running object detection for time : 509
+rgb/1341846331.550202.png
+running object detection for time : 510
+rgb/1341846331.586139.png
+running object detection for time : 511
+rgb/1341846331.617931.png
+running object detection for time : 512
+rgb/1341846331.654027.png
+running object detection for time : 513
+rgb/1341846331.686123.png
+running object detection for time : 514
+rgb/1341846331.717954.png
+running object detection for time : 515
+rgb/1341846331.754076.png
+running object detection for time : 516
+rgb/1341846331.785920.png
+running object detection for time : 517
+rgb/1341846331.818053.png
+running object detection for time : 518
+rgb/1341846331.853849.png
+running object detection for time : 519
+rgb/1341846331.885987.png
+running object detection for time : 520
+rgb/1341846331.922014.png
+running object detection for time : 521
+rgb/1341846331.954037.png
+running object detection for time : 522
+rgb/1341846331.986135.png
+running object detection for time : 523
+rgb/1341846332.022364.png
+running object detection for time : 524
+rgb/1341846332.054175.png
+running object detection for time : 525
+rgb/1341846332.086502.png
+running object detection for time : 526
+rgb/1341846332.122051.png
+running object detection for time : 527
+rgb/1341846332.153983.png
+running object detection for time : 528
+rgb/1341846332.190165.png
+running object detection for time : 529
+rgb/1341846332.254145.png
+running object detection for time : 530
+rgb/1341846332.289948.png
+running object detection for time : 531
+rgb/1341846332.322172.png
+running object detection for time : 532
+rgb/1341846332.354003.png
+running object detection for time : 533
+rgb/1341846332.390180.png
+running object detection for time : 534
+rgb/1341846332.422055.png
+running object detection for time : 535
+rgb/1341846332.458114.png
+running object detection for time : 536
+rgb/1341846332.489993.png
+running object detection for time : 537
+rgb/1341846332.522130.png
+running object detection for time : 538
+rgb/1341846332.558114.png
+running object detection for time : 539
+rgb/1341846332.589874.png
+running object detection for time : 540
+rgb/1341846332.621889.png
+running object detection for time : 541
+rgb/1341846332.658202.png
+running object detection for time : 542
+rgb/1341846332.690001.png
+running object detection for time : 543
+rgb/1341846332.726000.png
+running object detection for time : 544
+rgb/1341846332.758386.png
+running object detection for time : 545
+rgb/1341846332.789937.png
+running object detection for time : 546
+rgb/1341846332.825925.png
+running object detection for time : 547
+rgb/1341846332.857898.png
+running object detection for time : 548
+rgb/1341846332.894069.png
+running object detection for time : 549
+rgb/1341846332.926029.png
+running object detection for time : 550
+rgb/1341846332.958015.png
+running object detection for time : 551
+rgb/1341846332.994073.png
+running object detection for time : 552
+rgb/1341846333.026545.png
+running object detection for time : 553
+rgb/1341846333.057998.png
+running object detection for time : 554
+rgb/1341846333.094024.png
+running object detection for time : 555
+rgb/1341846333.126095.png
+running object detection for time : 556
+rgb/1341846333.161973.png
+running object detection for time : 557
+rgb/1341846333.195660.png
+running object detection for time : 558
+rgb/1341846333.226331.png
+running object detection for time : 559
+rgb/1341846333.262056.png
+running object detection for time : 560
+rgb/1341846333.294147.png
+running object detection for time : 561
+rgb/1341846333.326100.png
+running object detection for time : 562
+rgb/1341846333.362100.png
+running object detection for time : 563
+rgb/1341846333.394119.png
+running object detection for time : 564
+rgb/1341846333.429974.png
+running object detection for time : 565
+rgb/1341846333.462115.png
+running object detection for time : 566
+rgb/1341846333.494040.png
+running object detection for time : 567
+rgb/1341846333.529953.png
+running object detection for time : 568
+rgb/1341846333.562063.png
+running object detection for time : 569
+rgb/1341846333.594090.png
+running object detection for time : 570
+rgb/1341846333.629994.png
+running object detection for time : 571
+rgb/1341846333.662127.png
+running object detection for time : 572
+rgb/1341846333.697964.png
+running object detection for time : 573
+rgb/1341846333.730092.png
+running object detection for time : 574
+rgb/1341846333.762089.png
+running object detection for time : 575
+rgb/1341846333.798006.png
+running object detection for time : 576
+rgb/1341846333.830055.png
+running object detection for time : 577
+rgb/1341846333.866045.png
+running object detection for time : 578
+rgb/1341846333.897987.png
+running object detection for time : 579
+rgb/1341846333.930099.png
+running object detection for time : 580
+rgb/1341846333.965889.png
+running object detection for time : 581
+rgb/1341846333.997985.png
+running object detection for time : 582
+rgb/1341846334.030076.png
+running object detection for time : 583
+rgb/1341846334.066000.png
+running object detection for time : 584
+rgb/1341846334.097932.png
+running object detection for time : 585
+rgb/1341846334.133884.png
+running object detection for time : 586
+rgb/1341846334.166115.png
+running object detection for time : 587
+rgb/1341846334.198072.png
+running object detection for time : 588
+rgb/1341846334.234097.png
+running object detection for time : 589
+rgb/1341846334.266045.png
+running object detection for time : 590
+rgb/1341846334.297946.png
+running object detection for time : 591
+rgb/1341846334.334036.png
+running object detection for time : 592
+rgb/1341846334.365871.png
+running object detection for time : 593
+rgb/1341846334.401845.png
+running object detection for time : 594
+rgb/1341846334.433864.png
+running object detection for time : 595
+rgb/1341846334.466105.png
+running object detection for time : 596
+rgb/1341846334.502142.png
+running object detection for time : 597
+rgb/1341846334.540153.png
+running object detection for time : 598
+rgb/1341846334.602351.png
+running object detection for time : 599
+rgb/1341846334.670161.png
+running object detection for time : 600
+rgb/1341846334.702085.png
+running object detection for time : 601
+rgb/1341846334.734751.png
+running object detection for time : 602
+rgb/1341846334.770889.png
+running object detection for time : 603
+rgb/1341846334.802194.png
+running object detection for time : 604
+rgb/1341846334.833908.png
+running object detection for time : 605
+rgb/1341846334.869874.png
+running object detection for time : 606
+rgb/1341846334.902006.png
+running object detection for time : 607
+rgb/1341846334.938010.png
+running object detection for time : 608
+rgb/1341846334.970032.png
+running object detection for time : 609
+rgb/1341846335.002203.png
+running object detection for time : 610
+rgb/1341846335.037880.png
+running object detection for time : 611
+rgb/1341846335.069990.png
+running object detection for time : 612
+rgb/1341846335.106038.png
+running object detection for time : 613
+rgb/1341846335.138045.png
+running object detection for time : 614
+rgb/1341846335.169900.png
+running object detection for time : 615
+rgb/1341846335.206091.png
+running object detection for time : 616
+rgb/1341846335.239365.png
+running object detection for time : 617
+rgb/1341846335.269948.png
+running object detection for time : 618
+rgb/1341846335.305972.png
+running object detection for time : 619
+rgb/1341846335.338012.png
+running object detection for time : 620
+rgb/1341846335.374005.png
+running object detection for time : 621
+rgb/1341846335.406025.png
+running object detection for time : 622
+rgb/1341846335.438079.png
+running object detection for time : 623
+rgb/1341846335.473998.png
+running object detection for time : 624
+rgb/1341846335.507038.png
+running object detection for time : 625
+rgb/1341846335.538040.png
+running object detection for time : 626
+rgb/1341846335.574119.png
+running object detection for time : 627
+rgb/1341846335.605970.png
+running object detection for time : 628
+rgb/1341846335.641978.png
+running object detection for time : 629
+rgb/1341846335.673993.png
+running object detection for time : 630
+rgb/1341846335.706178.png
+running object detection for time : 631
+rgb/1341846335.741982.png
+running object detection for time : 632
+rgb/1341846335.773960.png
+running object detection for time : 633
+rgb/1341846335.806271.png
+running object detection for time : 634
+rgb/1341846335.842031.png
+running object detection for time : 635
+rgb/1341846335.873966.png
+running object detection for time : 636
+rgb/1341846335.910005.png
+running object detection for time : 637
+rgb/1341846335.941936.png
+running object detection for time : 638
+rgb/1341846335.974198.png
+running object detection for time : 639
+rgb/1341846336.010032.png
+running object detection for time : 640
+rgb/1341846336.042129.png
+running object detection for time : 641
+rgb/1341846336.078076.png
+running object detection for time : 642
+rgb/1341846336.110739.png
+running object detection for time : 643
+rgb/1341846336.142002.png
+running object detection for time : 644
+rgb/1341846336.183953.png
+running object detection for time : 645
+rgb/1341846336.241891.png
+running object detection for time : 646
+rgb/1341846336.277946.png
+running object detection for time : 647
+rgb/1341846336.309977.png
+running object detection for time : 648
+rgb/1341846336.346143.png
+running object detection for time : 649
+rgb/1341846336.377975.png
+running object detection for time : 650
+rgb/1341846336.410032.png
+running object detection for time : 651
+rgb/1341846336.446041.png
+running object detection for time : 652
+rgb/1341846336.477990.png
+running object detection for time : 653
+rgb/1341846336.510056.png
+running object detection for time : 654
+rgb/1341846336.546024.png
+running object detection for time : 655
+rgb/1341846336.578003.png
+running object detection for time : 656
+rgb/1341846336.614020.png
+running object detection for time : 657
+rgb/1341846336.645982.png
+running object detection for time : 658
+rgb/1341846336.678036.png
+running object detection for time : 659
+rgb/1341846336.714024.png
+running object detection for time : 660
+rgb/1341846336.746016.png
+running object detection for time : 661
+rgb/1341846336.778014.png
+running object detection for time : 662
+rgb/1341846336.820006.png
+running object detection for time : 663
+rgb/1341846336.882056.png
+running object detection for time : 664
+rgb/1341846336.914273.png
+running object detection for time : 665
+rgb/1341846336.945998.png
+running object detection for time : 666
+rgb/1341846336.981980.png
+running object detection for time : 667
+rgb/1341846337.014238.png
+running object detection for time : 668
+rgb/1341846337.046017.png
+running object detection for time : 669
+rgb/1341846337.082104.png
+running object detection for time : 670
+rgb/1341846337.114317.png
+running object detection for time : 671
+rgb/1341846337.150037.png
+running object detection for time : 672
+rgb/1341846337.181873.png
+running object detection for time : 673
+rgb/1341846337.214073.png
+running object detection for time : 674
+rgb/1341846337.250087.png
+running object detection for time : 675
+rgb/1341846337.282028.png
+running object detection for time : 676
+rgb/1341846337.317920.png
+running object detection for time : 677
+rgb/1341846337.350018.png
+running object detection for time : 678
+rgb/1341846337.382159.png
+running object detection for time : 679
+rgb/1341846337.417941.png
+running object detection for time : 680
+rgb/1341846337.450137.png
+running object detection for time : 681
+rgb/1341846337.482096.png
+running object detection for time : 682
+rgb/1341846337.518008.png
+running object detection for time : 683
+rgb/1341846337.549978.png
+running object detection for time : 684
+rgb/1341846337.585971.png
+running object detection for time : 685
+rgb/1341846337.617903.png
+running object detection for time : 686
+rgb/1341846337.650141.png
+running object detection for time : 687
+rgb/1341846337.686352.png
+running object detection for time : 688
+rgb/1341846337.718002.png
+running object detection for time : 689
+rgb/1341846337.749920.png
+running object detection for time : 690
+rgb/1341846337.786157.png
+running object detection for time : 691
+rgb/1341846337.817945.png
+running object detection for time : 692
+rgb/1341846337.854071.png
+running object detection for time : 693
+rgb/1341846337.885951.png
+running object detection for time : 694
+rgb/1341846337.918223.png
+running object detection for time : 695
+rgb/1341846337.954120.png
+running object detection for time : 696
+rgb/1341846337.985994.png
+running object detection for time : 697
+rgb/1341846338.018107.png
+running object detection for time : 698
+rgb/1341846338.054055.png
+running object detection for time : 699
+rgb/1341846338.085986.png
+running object detection for time : 700
+rgb/1341846338.121875.png
+running object detection for time : 701
+rgb/1341846338.154089.png
+running object detection for time : 702
+rgb/1341846338.186029.png
+running object detection for time : 703
+rgb/1341846338.222071.png
+running object detection for time : 704
+rgb/1341846338.254107.png
+running object detection for time : 705
+rgb/1341846338.290130.png
+running object detection for time : 706
+rgb/1341846338.321952.png
+running object detection for time : 707
+rgb/1341846338.354022.png
+running object detection for time : 708
+rgb/1341846338.389969.png
+running object detection for time : 709
+rgb/1341846338.422377.png
+running object detection for time : 710
+rgb/1341846338.454010.png
+running object detection for time : 711
+rgb/1341846338.489894.png
+running object detection for time : 712
+rgb/1341846338.522066.png
+running object detection for time : 713
+rgb/1341846338.558058.png
+running object detection for time : 714
+rgb/1341846338.589842.png
+running object detection for time : 715
+rgb/1341846338.622019.png
+running object detection for time : 716
+rgb/1341846338.657984.png
+running object detection for time : 717
+rgb/1341846338.690198.png
+running object detection for time : 718
+rgb/1341846338.722454.png
+running object detection for time : 719
+rgb/1341846338.757945.png
+running object detection for time : 720
+rgb/1341846338.790039.png
+running object detection for time : 721
+rgb/1341846338.826048.png
+running object detection for time : 722
+rgb/1341846338.858027.png
+running object detection for time : 723
+rgb/1341846338.889902.png
+running object detection for time : 724
+rgb/1341846338.925948.png
+running object detection for time : 725
+rgb/1341846338.958108.png
+running object detection for time : 726
+rgb/1341846338.990057.png
+running object detection for time : 727
+rgb/1341846339.025928.png
+running object detection for time : 728
+rgb/1341846339.057939.png
+running object detection for time : 729
+rgb/1341846339.093927.png
+running object detection for time : 730
+rgb/1341846339.126562.png
+running object detection for time : 731
+rgb/1341846339.157969.png
+running object detection for time : 732
+rgb/1341846339.194113.png
+running object detection for time : 733
+rgb/1341846339.228165.png
+running object detection for time : 734
+rgb/1341846339.257998.png
+running object detection for time : 735
+rgb/1341846339.294132.png
+running object detection for time : 736
+rgb/1341846339.326577.png
+running object detection for time : 737
+rgb/1341846339.362269.png
+running object detection for time : 738
+rgb/1341846339.394725.png
+running object detection for time : 739
+rgb/1341846339.462186.png
+running object detection for time : 740
+rgb/1341846339.496743.png
+running object detection for time : 741
+rgb/1341846339.562052.png
+running object detection for time : 742
+rgb/1341846339.595122.png
+running object detection for time : 743
+rgb/1341846339.632085.png
+running semantic segmentation for time: 1
+rgb/1341846339.664568.png
+running object detection for time : 744
+rgb/1341846339.698896.png
+running object detection for time : 745
+rgb/1341846339.731977.png
+running object detection for time : 746
+rgb/1341846339.762241.png
+running object detection for time : 747
+rgb/1341846339.797873.png
+running object detection for time : 748
+rgb/1341846339.830245.png
+running object detection for time : 749
+rgb/1341846339.862015.png
+running object detection for time : 750
+rgb/1341846339.897797.png
+running object detection for time : 751
+rgb/1341846339.929916.png
+running object detection for time : 752
+rgb/1341846339.961960.png
+running object detection for time : 753
+rgb/1341846339.997845.png
+running object detection for time : 754
+rgb/1341846340.029925.png
+running object detection for time : 755
+rgb/1341846340.066044.png
+running object detection for time : 756
+rgb/1341846340.098009.png
+running object detection for time : 757
+rgb/1341846340.130102.png
+running object detection for time : 758
+rgb/1341846340.166041.png
+running object detection for time : 759
+rgb/1341846340.197867.png
+running object detection for time : 760
+rgb/1341846340.229904.png
+running object detection for time : 761
+rgb/1341846340.265859.png
+running object detection for time : 762
+rgb/1341846340.298061.png
+running object detection for time : 763
+rgb/1341846340.334063.png
+running object detection for time : 764
+rgb/1341846340.366064.png
+running object detection for time : 765
+rgb/1341846340.397995.png
+running object detection for time : 766
+rgb/1341846340.433895.png
+running object detection for time : 767
+rgb/1341846340.465959.png
+running object detection for time : 768
+rgb/1341846340.501858.png
+running object detection for time : 769
+rgb/1341846340.534329.png
+running object detection for time : 770
+rgb/1341846340.566041.png
+running object detection for time : 771
+rgb/1341846340.601909.png
+running object detection for time : 772
+rgb/1341846340.634005.png
+running object detection for time : 773
+rgb/1341846340.666028.png
+running object detection for time : 774
+rgb/1341846340.701946.png
+running object detection for time : 775
+rgb/1341846340.733954.png
+running object detection for time : 776
+rgb/1341846340.770081.png
+running object detection for time : 777
+rgb/1341846340.801980.png
+running object detection for time : 778
+rgb/1341846340.833999.png
+running object detection for time : 779
+rgb/1341846340.870013.png
+running object detection for time : 780
+rgb/1341846340.901955.png
+running object detection for time : 781
+rgb/1341846340.933918.png
+running object detection for time : 782
+rgb/1341846340.970122.png
+running object detection for time : 783
+rgb/1341846341.001922.png
+running object detection for time : 784
+rgb/1341846341.037923.png
+running object detection for time : 785
+rgb/1341846341.070300.png
+running object detection for time : 786
+rgb/1341846341.102028.png
+running object detection for time : 787
+rgb/1341846341.137982.png
+running object detection for time : 788
+rgb/1341846341.170048.png
+running semantic segmentation for time: 2
+rgb/1341846341.202110.png
+running object detection for time : 789
+rgb/1341846341.237996.png
+running object detection for time : 790
+rgb/1341846341.269883.png
+running object detection for time : 791
+rgb/1341846341.306107.png
+running semantic segmentation for time: 3
+rgb/1341846341.338109.png
+running semantic segmentation for time: 4
+rgb/1341846341.370120.png
+running semantic segmentation for time: 5
+rgb/1341846341.406074.png
+running object detection for time : 792
+rgb/1341846341.438113.png
+running semantic segmentation for time: 6
+rgb/1341846341.470024.png
+running semantic segmentation for time: 7
+rgb/1341846341.506077.png
+running object detection for time : 793
+rgb/1341846341.538156.png
+running semantic segmentation for time: 8
+rgb/1341846341.574016.png
+running object detection for time : 794
+rgb/1341846341.612466.png
+running object detection for time : 795
+rgb/1341846341.643972.png
+running object detection for time : 796
+rgb/1341846341.679982.png
+running object detection for time : 797
+rgb/1341846341.712332.png
+running object detection for time : 798
+rgb/1341846341.744185.png
+running object detection for time : 799
+rgb/1341846341.780061.png
+running object detection for time : 800
+rgb/1341846341.842595.png
+running object detection for time : 801
+rgb/1341846341.906227.png
+running object detection for time : 802
+rgb/1341846341.942069.png
+running object detection for time : 803
+rgb/1341846341.974775.png
+running object detection for time : 804
+rgb/1341846342.010161.png
+running object detection for time : 805
+rgb/1341846342.042024.png
+running object detection for time : 806
+rgb/1341846342.080032.png
+running object detection for time : 807
+rgb/1341846342.112265.png
+running object detection for time : 808
+rgb/1341846342.147954.png
+running object detection for time : 809
+rgb/1341846342.179852.png
+running object detection for time : 810
+rgb/1341846342.211848.png
+running object detection for time : 811
+rgb/1341846342.247920.png
+running object detection for time : 812
+rgb/1341846342.279870.png
+running object detection for time : 813
+rgb/1341846342.316068.png
+running object detection for time : 814
+rgb/1341846342.347894.png
+running object detection for time : 815
+rgb/1341846342.379953.png
+running object detection for time : 816
+rgb/1341846342.416195.png
+running object detection for time : 817
+-------
+
+median tracking time: 0.0352758
+mean tracking time: 0.0358635
+
+Saving camera trajectory to CameraTrajectory.txt ...
+
+trajectory saved!
+
+Saving keyframe trajectory to KeyFrameTrajectory.txt ...
+
+trajectory saved!
+compared_pose_pairs 9976 pairs
+translational_error.rmse 0.539114 m
+translational_error.mean 0.289391 m
+translational_error.median 0.031172 m
+translational_error.std 0.454858 m
+translational_error.min 0.000000 m
+translational_error.max 1.718924 m
+rotational_error.rmse 10.905125 deg
+rotational_error.mean 5.898321 deg
+rotational_error.median 0.689213 deg
+rotational_error.std 9.172326 deg
+rotational_error.min 0.000000 deg
+rotational_error.max 32.376271 deg
+compared_pose_pairs 826 pairs
+absolute_translational_error.rmse 0.378556 m
+absolute_translational_error.mean 0.302255 m
+absolute_translational_error.median 0.224013 m
+absolute_translational_error.std 0.227918 m
+absolute_translational_error.min 0.035621 m
+absolute_translational_error.max 1.175440 m
+/home/cse/segmentationTest/segmentationResults
+/home/cse/segmentationTest/objectDetectionResults

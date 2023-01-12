@@ -67,6 +67,9 @@ public:
     bool isInPerson( const cv::Point2f &coordinate,  const std::vector<std::vector<float>> &detect_result);
     int removeKeyPointsUsingDetect(std::vector<std::vector<cv::KeyPoint>>& mvKeysT,std::vector<cv::Point2f> T, const std::vector<std::vector<float>> &dynamicObjects);
     
+    int removeKeyPointsUsingDetectAndSegment(std::vector<std::vector<cv::KeyPoint>>& mvKeysT,std::vector<cv::Point2f> T, const std::vector<std::vector<float>> &dynamicObjects, const cv::Mat &segmentationOutput);
+    
+    int closestPixelDistance(int r, int c, const cv::Mat &segmentedImage);
     void operator()( cv::InputArray image, cv::InputArray mask,
     std::vector<std::vector<cv::KeyPoint>>& _keypoints);
 
