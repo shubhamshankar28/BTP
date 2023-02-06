@@ -47,6 +47,13 @@ string deriveObjectName(string &s) {
     string suffix = "_objectDetect";
     return (fin+suffix);
 }
+
+string deriveFlowName(string &s) {
+    int len = s.size();
+    string fin = s.substr(4,len-8);
+    string suffix = "_flow";
+    return (fin+suffix);
+}
 void retrieveObjectsFromImage(const string &folder,string &name, vector<vector<float>> &dynamicObjects) {
     ifstream inputFile(folder+"/"+deriveObjectName(name));
     int t;
@@ -63,9 +70,27 @@ void retrieveObjectsFromImage(const string &folder,string &name, vector<vector<f
     inputFile.close();
 }
 
+
+void retrieveFlowDetails(const string &folder, string &name , vector<vector<pair<float,float>>> &flowResults, float &medianX, float &medianY) {
+    ifstream inputFile(folder+"/"+deriveFlowName(name));
+    float x, y;
+    inputFile >> x >> y;
+    medianX = x;
+    medianY = y;
+    for(int j=0;j<480;++j) {
+        vector<pair<float,float>> temp;
+        for(int k=0;k<640;++k) {
+            inputFile >> x >> y;
+            temp.push_back({x,y});
+        }
+        flowResults.push_back(temp);
+    }
+    inputFile.close();
+}
+
 int main(int argc, char **argv)
 {
-    if(argc != 7)
+    if(argc != 8)
     {
         cerr << endl << "Usage: ./rgbd_tum path_to_vocabulary path_to_settings path_to_sequence path_to_association" << endl;
         return 1;
@@ -149,6 +174,15 @@ int main(int argc, char **argv)
         vector<vector<float>> dynamicObjects;
         retrieveObjectsFromImage(string(argv[6]),vstrImageFilenamesRGB[ni],dynamicObjects);
 
+        vector<vector<pair<float,float>>> flowResults;
+        float medianX=-1,medianY=-1;
+        if(ni != 0) {
+            retrieveFlowDetails(string(argv[7]) , vstrImageFilenamesRGB[ni], flowResults, medianX, medianY);
+            int rows = flowResults.size();
+            int cols = flowResults[0].size();
+            cout<<"dimension of flowResults is "<<rows<<" "<<cols<<"\n";
+        }
+
         cout<<(segmentationOutput.rows)<<" "<<(segmentationOutput.cols)<<"\n";
         cout<<"processing : "<<vstrImageFilenamesRGB[ni]<<" segmentation file is : "<<(string(argv[5]) + "/" + nameOfSegmentedFile)<<"\n";
         int sz = dynamicObjects.size();
@@ -184,7 +218,7 @@ int main(int argc, char **argv)
 
     cout<<"output of pixel : 527 209 is "<<(blueVal)<<" "<<(greenVal)<<" "<<(redVal)<<"  \n";
         // Pass the image to the SLAM system
-        SLAM.TrackRGBD(imRGB,imD,tframe,segmentationOutput,dynamicObjects);
+        SLAM.TrackRGBD(imRGB,imD,tframe,segmentationOutput,dynamicObjects,medianX,medianY,flowResults);
         // if(vstrImageFilenamesRGB[ni] == "rgb/1341846313.789969.png") {
         //     return 0;   
         // }

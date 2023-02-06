@@ -1237,140 +1237,190 @@ int ORBextractor::removeKeyPointsUsingDetect(std::vector<std::vector<cv::KeyPoin
 }
 
 
-int ORBextractor::removeKeyPointsUsingDetectAndSegment(std::vector<std::vector<cv::KeyPoint>>& mvKeysT,std::vector<cv::Point2f> T, const std::vector<std::vector<float>> &dynamicObjects, const cv::Mat &segmentationOutput) {
+int ORBextractor::removeKeyPointsUsingDetectAndSegment(std::vector<std::vector<cv::KeyPoint>>& mvKeysT,std::vector<cv::Point2f> T, const std::vector<std::vector<float>> &dynamicObjects, const cv::Mat &segmentationOutput, float medianX, float medianY, const vector<vector<pair<float,float>>> &flowResults) {
 
 
 
 
-    float scale;
-    int flag_orb_mov =0;   
-    int height = 480;
-    int width = 640;
-    int nearnessThreshold = 200;
+    // float scale;
+    // int flag_orb_mov =0;   
+    // int height = 480;
+    // int width = 640;
+    // int nearnessThreshold = 200;
 
-	for (int i = 0; i < T.size(); i++)
-	{
-	    for(int m = -15; m < 15; m++) 
-	    {
-	        for(int n = -15; n < 15; n++)
-	        {
-	            int my = ((int)T[i].y + n) ;
-	            int mx = ((int)T[i].x + m) ;
-		    if( ((int)T[i].y + n) > (height -1) ) my = (height - 1) ;
-	            if( ((int)T[i].y + n) < 1 ) my = 0;
-		    if( ((int)T[i].x + m) > (width -1) ) mx = (width - 1) ;
-		    if( ((int)T[i].x + m) < 1 ) mx = 0;
-		    cv::Point2f my_coordinate(mx,my);
-                // The id of peopel is 0
-            if(isInPerson(my_coordinate, dynamicObjects))
-		    {
-		      flag_orb_mov = 1;
-		      break;
-		    }
+	// for (int i = 0; i < T.size(); i++)
+	// {
+	//     for(int m = -15; m < 15; m++) 
+	//     {
+	//         for(int n = -15; n < 15; n++)
+	//         {
+	//             int my = ((int)T[i].y + n) ;
+	//             int mx = ((int)T[i].x + m) ;
+	// 	    if( ((int)T[i].y + n) > (height -1) ) my = (height - 1) ;
+	//             if( ((int)T[i].y + n) < 1 ) my = 0;
+	// 	    if( ((int)T[i].x + m) > (width -1) ) mx = (width - 1) ;
+	// 	    if( ((int)T[i].x + m) < 1 ) mx = 0;
+	// 	    cv::Point2f my_coordinate(mx,my);
+    //             // The id of peopel is 0
+    //         if(isInPerson(my_coordinate, dynamicObjects))
+	// 	    {
+	// 	      flag_orb_mov = 1;
+	// 	      break;
+	// 	    }
                      
-	        }
-	            if(flag_orb_mov==1)
-	                 break;
-	     }
-	         if(flag_orb_mov==1)
-	            break;
-	}
+	//         }
+	//             if(flag_orb_mov==1)
+	//                  break;
+	//      }
+	//          if(flag_orb_mov==1)
+	//             break;
+	// }
 	 
-     flag_orb_mov = 1;
+    //  flag_orb_mov = 1;
 
-    int numberOfDetectKeyPoint = 0 , unremovedKeyPoint = 0;
+    // int numberOfDetectKeyPoint = 0 , unremovedKeyPoint = 0;
 
-    std::vector<std::vector<std::pair<int,int>>> indexesToRemove;
-    for(int j=0;j<nlevels;++j) {
-        vector<pair<int,int>> temp;
-        indexesToRemove.push_back(temp);
-    }
+    // std::vector<std::vector<std::pair<int,int>>> indexesToRemove;
+    // for(int j=0;j<nlevels;++j) {
+    //     vector<pair<int,int>> temp;
+    //     indexesToRemove.push_back(temp);
+    // }
 
-    vector<vector<int>> globalDynamicKeypointsTracker;
-    vector<vector<int>> removalMask;
+    // vector<vector<int>> globalDynamicKeypointsTracker;
+    // vector<vector<int>> removalMask;
 
-	if(flag_orb_mov==1)
-	{
+	// if(flag_orb_mov==1)
+	// {
 
-	    for (int level = 0; level < nlevels; ++level)
-            {
-                vector<cv::KeyPoint>& mkeypoints = mvKeysT[level];
-		        int nkeypointsLevel = (int)mkeypoints.size();
-                int counter = 0;
+	//     for (int level = 0; level < nlevels; ++level)
+    //         {
+    //             vector<cv::KeyPoint>& mkeypoints = mvKeysT[level];
+	// 	        int nkeypointsLevel = (int)mkeypoints.size();
+    //             int counter = 0;
 
-                vector<int> levelMask;
-                numberOfDetectKeyPoint+=nkeypointsLevel;
-		        if(nkeypointsLevel==0) {
-		                removalMask.push_back(levelMask);
-                        continue;
-                }
-		        if (level != 0)
-			        scale = mvScaleFactor[level]; 
-		        else
-			        scale =1; 
-                vector<cv::KeyPoint>::iterator keypoint = mkeypoints.begin();
+    //             vector<int> levelMask;
+    //             numberOfDetectKeyPoint+=nkeypointsLevel;
+	// 	        if(nkeypointsLevel==0) {
+	// 	                removalMask.push_back(levelMask);
+    //                     continue;
+    //             }
+	// 	        if (level != 0)
+	// 		        scale = mvScaleFactor[level]; 
+	// 	        else
+	// 		        scale =1; 
+    //             vector<cv::KeyPoint>::iterator keypoint = mkeypoints.begin();
                
-                while(keypoint != mkeypoints.end())
-	            {
-		             cv::Point2f search_coord = keypoint->pt * scale;
-		             if(search_coord.x >= (width -1)) search_coord.x=(width -1);
-		             if(search_coord.y >= (height -1)) search_coord.y=(height -1) ;
+    //             while(keypoint != mkeypoints.end())
+	//             {
+	// 	             cv::Point2f search_coord = keypoint->pt * scale;
+	// 	             if(search_coord.x >= (width -1)) search_coord.x=(width -1);
+	// 	             if(search_coord.y >= (height -1)) search_coord.y=(height -1) ;
 
-                     int inPerson = 0;
+    //                  int inPerson = 0;
 
-		             if(isInPerson(search_coord, dynamicObjects)) 
-		             {
-                        inPerson = 1;
-		             }
+	// 	             if(isInPerson(search_coord, dynamicObjects)) 
+	// 	             {
+    //                     inPerson = 1;
+	// 	             }
                     
 
 
-                    int ans;
-                    if(checkIsDynamic(search_coord.y,search_coord.x,segmentationOutput)) {
-                        levelMask.push_back(0);
+    //                 int ans;
+    //                 if(checkIsDynamic(search_coord.y,search_coord.x,segmentationOutput)) {
+    //                     levelMask.push_back(0);
+    //                 }
+    //                 else {
+    //                     levelMask.push_back(1);
+    //                 }
+    //                 if(inPerson == 1) {
+    //                     ans = closestPixelDistance(search_coord.y,search_coord.x,segmentationOutput);
+    //                     indexesToRemove[level].push_back({ans,counter});
+    //                     globalDynamicKeypointsTracker.push_back({ans,level,counter,search_coord.x,search_coord.y});
+    //                     // cout<<"distance is : "<<ans<<" "; 
+    //                 }
+    //                 keypoint++;
+    //                 counter++;
+	//              }
+
+    //              removalMask.push_back(levelMask);
+	//           }
+    //   }
+
+
+    //    sort(globalDynamicKeypointsTracker.begin(),globalDynamicKeypointsTracker.end());
+    //    int globalSize = globalDynamicKeypointsTracker.size();
+
+    //    for(int i=0;i<globalSize; ++i) {
+    //     if(globalDynamicKeypointsTracker[i][0] >= 150)
+    //         break;
+    //     removalMask[globalDynamicKeypointsTracker[i][1]][globalDynamicKeypointsTracker[i][2]] = 0;
+    //    }
+
+
+    //    for(int i=0;i<nlevels;++i) {
+    //         int sz  = mvKeysT[i].size();
+    //         if(sz == 0)
+    //             continue;
+    //         vector<cv::KeyPoint> keypoints;
+    //         for(int l=0;l<sz;++l) {
+    //             if(removalMask[i][l] == 0) continue;
+    //             keypoints.push_back(mvKeysT[i][l]);
+    //         }
+    //     mvKeysT[i] = keypoints;
+    //    } 
+
+
+    //   return flag_orb_mov;
+
+
+    int width = 640;
+    int height = 480;
+    float scale;
+
+
+    int mode = ((flowResults.size() == 0) ? 0 : 1);
+    if(mode == 0) {
+        return 1;
+    }
+
+    for (int level = 0; level < nlevels; ++level)
+        {   
+
+            vector<cv::KeyPoint>& mkeypoints = mvKeysT[level];
+            int nkeypointsLevel = (int)mkeypoints.size();
+            int counter = 0;
+
+
+            if(nkeypointsLevel==0) {
+                    
+                    continue;
+            }
+            if (level != 0)
+                scale = mvScaleFactor[level]; 
+            else
+                scale =1; 
+            vector<cv::KeyPoint>::iterator keypoint = mkeypoints.begin();
+            
+            while(keypoint != mkeypoints.end())
+            {
+                    cv::Point2f search_coord = keypoint->pt * scale;
+                    if(search_coord.x >= (width -1)) search_coord.x=(width -1);
+                    if(search_coord.y >= (height -1)) search_coord.y=(height -1) ;
+
+                    
+                    auto [displacementX,displacementY] = flowResults[search_coord.y][search_coord.x];
+                    
+                    if(((displacementX - medianX)*(displacementX - medianX) + (displacementY - medianY)*(displacementY - medianY)) >= 7) {
+                        keypoint = mkeypoints.erase(keypoint);
                     }
                     else {
-                        levelMask.push_back(1);
+                        keypoint++;
                     }
-                    if(inPerson == 1) {
-                        ans = closestPixelDistance(search_coord.y,search_coord.x,segmentationOutput);
-                        indexesToRemove[level].push_back({ans,counter});
-                        globalDynamicKeypointsTracker.push_back({ans,level,counter,search_coord.x,search_coord.y});
-                        // cout<<"distance is : "<<ans<<" "; 
-                    }
-                    keypoint++;
-                    counter++;
-	             }
-
-                 removalMask.push_back(levelMask);
-	          }
-      }
-
-
-       sort(globalDynamicKeypointsTracker.begin(),globalDynamicKeypointsTracker.end());
-       int globalSize = globalDynamicKeypointsTracker.size();
-
-       for(int i=0;i<globalSize; ++i) {
-        if(globalDynamicKeypointsTracker[i][0] >= 150)
-            break;
-        removalMask[globalDynamicKeypointsTracker[i][1]][globalDynamicKeypointsTracker[i][2]] = 0;
-       }
-
-
-       for(int i=0;i<nlevels;++i) {
-            int sz  = mvKeysT[i].size();
-            if(sz == 0)
-                continue;
-            vector<cv::KeyPoint> keypoints;
-            for(int l=0;l<sz;++l) {
-                if(removalMask[i][l] == 0) continue;
-                keypoints.push_back(mvKeysT[i][l]);
+                }
             }
-        mvKeysT[i] = keypoints;
-       } 
+            return 1;
 
-
-      return flag_orb_mov;
+      
 }
 
 static void computeDescriptors(const Mat& image, vector<KeyPoint>& keypoints, Mat& descriptors,

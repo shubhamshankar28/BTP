@@ -78,7 +78,7 @@ public:
     // Input image: RGB (CV_8UC3) or grayscale (CV_8U). RGB is converted to grayscale.
     // Input depthmap: Float (CV_32F).
     // Returns the camera pose (empty if tracking fails).
-    cv::Mat TrackRGBD(const cv::Mat &im, const cv::Mat &depthmap, const double &timestamp, const cv::Mat &segmentationOutput, const std::vector<std::vector<float>> &dynamicObjects);
+    cv::Mat TrackRGBD(const cv::Mat &im, const cv::Mat &depthmap, const double &timestamp, const cv::Mat &segmentationOutput, const std::vector<std::vector<float>> &dynamicObjects, float medianX, float medianY, const vector<vector<pair<float,float>>> &flowResults);
 
     // Proccess the given monocular frame
     // Input images: RGB (CV_8UC3) or grayscale (CV_8U). RGB is converted to grayscale.

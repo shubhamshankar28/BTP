@@ -205,7 +205,7 @@ cv::Mat Tracking::GrabImageStereo(const cv::Mat &imRectLeft, const cv::Mat &imRe
 
 int objectDetectionRun = 0;
 int semanticSegmentationRun = 0;
-cv::Mat Tracking::GrabImageRGBD(const cv::Mat &imRGB,const cv::Mat &imD, const double &timestamp, const cv::Mat &segmentationOutput, const std::vector<std::vector<float>> &dynamicObjects)
+cv::Mat Tracking::GrabImageRGBD(const cv::Mat &imRGB,const cv::Mat &imD, const double &timestamp, const cv::Mat &segmentationOutput, const std::vector<std::vector<float>> &dynamicObjects, float medianX, float medianY, const vector<vector<pair<float,float>>> &flowResults)
 {   
     cv::Mat mImRGB = imRGB;
     mImGray = imRGB;
@@ -248,7 +248,7 @@ cv::Mat Tracking::GrabImageRGBD(const cv::Mat &imRGB,const cv::Mat &imD, const d
     //     objectDetectionRun++;
     // }
     // cout<<"calling incorrect keypoints using detect and segment\n";
-    mCurrentFrame.removeIncorrectKeyPointsUsingDetectAndSegment(mImRGB,mImGray,imDepth,mK,dynamicObjects,segmentationOutput); 
+    mCurrentFrame.removeIncorrectKeyPointsUsingDetectAndSegment(mImRGB,mImGray,imDepth,mK,dynamicObjects,segmentationOutput, medianX, medianY, flowResults); 
     // cout<<"returning from remove incorrect keypoints using detect and segment\n";
     Track();
 
