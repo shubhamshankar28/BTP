@@ -58,6 +58,7 @@ void retrieveObjectsFromImage(const string &folder,string &name, vector<vector<f
     ifstream inputFile(folder+"/"+deriveObjectName(name));
     int t;
     inputFile >> t;
+    cout<<"detected objects "<<t<<"\n";
     for(int i=0;i<t;++i) {
         vector<float> temp;
         for(int j=0;j<5;++j) {
@@ -70,21 +71,68 @@ void retrieveObjectsFromImage(const string &folder,string &name, vector<vector<f
     inputFile.close();
 }
 
+bool isInPerson( float cx,float cy,  const std::vector<std::vector<float>> &detect_result)
+{
+  bool InPerson = false;
 
-void retrieveFlowDetails(const string &folder, string &name , vector<vector<pair<float,float>>> &flowResults, float &medianX, float &medianY) {
+//   cout<<"size : "<<detect_result.size()<<"\n";
+  for(auto temp: detect_result)
+  {
+      int sz = temp.size();
+      
+      if(sz == 0)
+        break;
+    //   assert(sz >= 5);
+    //   assert(coordinate.y < 480);
+    //   assert(temp[3] < 480);
+    //   if(temp[3] > 480) {
+    //     cout<<"wrong\n";
+    //   }
+    //   cout<<temp[1]<<" "<<temp[2]<<" "<<temp[3]<<" "<<temp[4]<<"\n";
+      if((cx > temp[1])&& (cy > temp[2]) && (cx < temp[3]) && (cy < temp[4]))
+      {
+        InPerson = true;
+        break;
+      }
+  }
+  return InPerson;
+}
+
+void retrieveFlowDetails(const string &folder, string &name , vector<vector<pair<float,float>>> &flowResults, float &medianX, float &medianY,vector<vector<float>> &dynamicObjects) {
     ifstream inputFile(folder+"/"+deriveFlowName(name));
     float x, y;
     inputFile >> x >> y;
     medianX = x;
     medianY = y;
+    float mx = 0.0;
+    float my = 0.0;
+    vector<float>sortedX,sortedY;
+    int counter = 0;
     for(int j=0;j<480;++j) {
         vector<pair<float,float>> temp;
         for(int k=0;k<640;++k) {
             inputFile >> x >> y;
             temp.push_back({x,y});
+            if(!isInPerson(k,j,dynamicObjects)) {
+                sortedX.push_back(x);
+                sortedY.push_back(y);
+                counter++;
+            }
+
+                mx+=x;
+                my+=y;
         }
         flowResults.push_back(temp);
     }
+
+    // sort(sortedX.begin(),sortedX.end());
+    // sort(sortedY.begin(),sortedY.end());
+
+
+    // medianX = mx/(640*480);
+    // medianY = my/(640*480);
+
+    cout<<medianX<<" "<<medianY<<"\n";
     inputFile.close();
 }
 
@@ -177,7 +225,7 @@ int main(int argc, char **argv)
         vector<vector<pair<float,float>>> flowResults;
         float medianX=-1,medianY=-1;
         if(ni != 0) {
-            retrieveFlowDetails(string(argv[7]) , vstrImageFilenamesRGB[ni], flowResults, medianX, medianY);
+            retrieveFlowDetails(string(argv[7]) , vstrImageFilenamesRGB[ni], flowResults, medianX, medianY,dynamicObjects);
             int rows = flowResults.size();
             int cols = flowResults[0].size();
             cout<<"dimension of flowResults is "<<rows<<" "<<cols<<"\n";

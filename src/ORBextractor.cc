@@ -1143,12 +1143,22 @@ int ORBextractor::removeKeyPointsUsingSegment(std::vector<std::vector<cv::KeyPoi
 bool ORBextractor::isInPerson( const cv::Point2f &coordinate,  const std::vector<std::vector<float>> &detect_result)
 {
   bool InPerson = false;
+
+//   cout<<"size : "<<detect_result.size()<<"\n";
   for(auto temp: detect_result)
   {
       int sz = temp.size();
+      
       if(sz == 0)
         break;
       assert(sz >= 5);
+
+      assert(coordinate.y < 480);
+      assert(temp[3] < 480);
+    //   if(temp[3] > 480) {
+    //     cout<<"wrong\n";
+    //   }
+    //   cout<<temp[1]<<" "<<temp[2]<<" "<<temp[3]<<" "<<temp[4]<<"\n";
       if((coordinate.x > temp[1])&& (coordinate.y > temp[2]) && (coordinate.x < temp[3]) && (coordinate.y < temp[4]))
       {
         InPerson = true;
@@ -1409,11 +1419,16 @@ int ORBextractor::removeKeyPointsUsingDetectAndSegment(std::vector<std::vector<c
 
                     
                     auto [displacementX,displacementY] = flowResults[search_coord.y][search_coord.x];
-                    
-                    if(((displacementX - medianX)*(displacementX - medianX) + (displacementY - medianY)*(displacementY - medianY)) >= 7) {
+                    bool res = (isInPerson(search_coord,dynamicObjects));
+                    bool det = (((displacementX - medianX)*(displacementX - medianX) + (displacementY - medianY)*(displacementY - medianY)) >= 7);
+                    if(det) {
                         keypoint = mkeypoints.erase(keypoint);
                     }
                     else {
+
+                        // if(res && !det) {
+                        //     cout<<"point with coord : " <<search_coord.x<<" "<<search_coord.y<<" "<<"has displacement "<<displacementX<<" "<<displacementY<<" and median "<<medianX<<" "<<medianY<<" is not evicted\n"; 
+                        // }
                         keypoint++;
                     }
                 }
