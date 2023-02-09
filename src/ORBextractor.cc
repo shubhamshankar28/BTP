@@ -1247,46 +1247,45 @@ int ORBextractor::removeKeyPointsUsingDetect(std::vector<std::vector<cv::KeyPoin
 }
 
 
-int ORBextractor::removeKeyPointsUsingDetectAndSegment(std::vector<std::vector<cv::KeyPoint>>& mvKeysT,std::vector<cv::Point2f> T, const std::vector<std::vector<float>> &dynamicObjects, const cv::Mat &segmentationOutput, float medianX, float medianY, const vector<vector<pair<float,float>>> &flowResults) {
+int ORBextractor::removeKeyPointsUsingDetectAndSegment(std::vector<std::vector<cv::KeyPoint>>& mvKeysT,std::vector<cv::Point2f> T, const std::vector<std::vector<float>> &dynamicObjects, const cv::Mat &segmentationOutput, std::pair<float,float> medianX, std::pair<float,float> medianY, const vector<vector<pair<float,float>>> &flowResults) {
 
 
+    int height =  480;
+    int width = 640;
+    float scale;
 
 
-    // float scale;
-    // int flag_orb_mov =0;   
-    // int height = 480;
-    // int width = 640;
-    // int nearnessThreshold = 200;
+    int flag_orb_mov =0;   
 
-	// for (int i = 0; i < T.size(); i++)
-	// {
-	//     for(int m = -15; m < 15; m++) 
-	//     {
-	//         for(int n = -15; n < 15; n++)
-	//         {
-	//             int my = ((int)T[i].y + n) ;
-	//             int mx = ((int)T[i].x + m) ;
-	// 	    if( ((int)T[i].y + n) > (height -1) ) my = (height - 1) ;
-	//             if( ((int)T[i].y + n) < 1 ) my = 0;
-	// 	    if( ((int)T[i].x + m) > (width -1) ) mx = (width - 1) ;
-	// 	    if( ((int)T[i].x + m) < 1 ) mx = 0;
-	// 	    cv::Point2f my_coordinate(mx,my);
-    //             // The id of peopel is 0
-    //         if(isInPerson(my_coordinate, dynamicObjects))
-	// 	    {
-	// 	      flag_orb_mov = 1;
-	// 	      break;
-	// 	    }
+
+	for (int i = 0; i < T.size(); i++)
+	{
+	    for(int m = -15; m < 15; m++) 
+	    {
+	        for(int n = -15; n < 15; n++)
+	        {
+	            int my = ((int)T[i].y + n) ;
+	            int mx = ((int)T[i].x + m) ;
+		    if( ((int)T[i].y + n) > (height -1) ) my = (height - 1) ;
+	            if( ((int)T[i].y + n) < 1 ) my = 0;
+		    if( ((int)T[i].x + m) > (width -1) ) mx = (width - 1) ;
+		    if( ((int)T[i].x + m) < 1 ) mx = 0;
+		    cv::Point2f my_coordinate(mx,my);
+                // The id of peopel is 0
+            if(isInPerson(my_coordinate, dynamicObjects))
+		    {
+		      flag_orb_mov = 1;
+		      break;
+		    }
                      
-	//         }
-	//             if(flag_orb_mov==1)
-	//                  break;
-	//      }
-	//          if(flag_orb_mov==1)
-	//             break;
-	// }
+	        }
+	            if(flag_orb_mov==1)
+	                 break;
+	     }
+	         if(flag_orb_mov==1)
+	            break;
+	}
 	 
-    //  flag_orb_mov = 1;
 
     // int numberOfDetectKeyPoint = 0 , unremovedKeyPoint = 0;
 
@@ -1383,9 +1382,7 @@ int ORBextractor::removeKeyPointsUsingDetectAndSegment(std::vector<std::vector<c
     //   return flag_orb_mov;
 
 
-    int width = 640;
-    int height = 480;
-    float scale;
+
 
 
     int mode = ((flowResults.size() == 0) ? 0 : 1);
@@ -1393,6 +1390,111 @@ int ORBextractor::removeKeyPointsUsingDetectAndSegment(std::vector<std::vector<c
         return 1;
     }
 
+
+
+    
+    float limitUpper, limitLower;
+
+    vector<float> sortedDisplacements;
+    int totalKeypoints = 0;
+    for (int level = 0; level < nlevels; ++level)
+        {   
+
+            vector<cv::KeyPoint>& mkeypoints = mvKeysT[level];
+            int counter = 0;
+
+            if (level != 0)
+                scale = mvScaleFactor[level]; 
+            else
+                scale =1; 
+            vector<cv::KeyPoint>::iterator keypoint = mkeypoints.begin();
+            
+            while(keypoint != mkeypoints.end())
+            {
+                    cv::Point2f search_coord = keypoint->pt * scale;
+                    if(search_coord.x >= (width -1)) search_coord.x=(width -1);
+                    if(search_coord.y >= (height -1)) search_coord.y=(height -1) ;
+
+                    totalKeypoints++;
+                    auto [displacementX,displacementY] = flowResults[search_coord.y][search_coord.x];
+                    sortedDisplacements.push_back(displacementX);
+                    keypoint++;
+            }
+        }
+
+        sort(sortedDisplacements.begin() , sortedDisplacements.end());
+        int tsz = sortedDisplacements.size();
+        int range = (tsz/8);
+
+
+        int sz = sortedDisplacements.size()/2;
+    
+        cout<<sz<<" "<<range<<"\n";
+        limitLower = sortedDisplacements[sz-range];
+        limitUpper = sortedDisplacements[sz+range];
+
+        medianX = {limitLower,limitUpper};
+    
+
+    int dsz = dynamicObjects.size();
+
+    cout<<dsz<<" dynamic objects have been detected\n";
+    float area = 0;
+    for(int i=0;i<dsz;++i) {
+        for(int j=1;j<5;++j) {
+            cout<<dynamicObjects[i][j]<<" ";
+        }
+        area=((dynamicObjects[i][3] - dynamicObjects[i][1])*(dynamicObjects[i][4] - dynamicObjects[i][2])) + area;
+        cout<<"\n";
+    }
+
+    float totalArea = (480*640)/2;
+
+    if(area > (totalArea)) {
+    cout<<"absurdly high area "<<area<<" "<<totalArea<<"\n";
+    int removedPoints = 0;
+    for (int level = 0; level < nlevels; ++level)
+        {   
+
+            vector<cv::KeyPoint>& mkeypoints = mvKeysT[level];
+            int nkeypointsLevel = (int)mkeypoints.size();
+            int counter = 0;
+
+
+            if(nkeypointsLevel==0) {
+                    
+                    continue;
+            }
+            if (level != 0)
+                scale = mvScaleFactor[level]; 
+            else
+                scale =1; 
+            vector<cv::KeyPoint>::iterator keypoint = mkeypoints.begin();
+            
+            while(keypoint != mkeypoints.end())
+            {
+                    cv::Point2f search_coord = keypoint->pt * scale;
+                    if(search_coord.x >= (width -1)) search_coord.x=(width -1);
+                    if(search_coord.y >= (height -1)) search_coord.y=(height -1) ;
+
+                    bool checkSufficientKeypoints = (totalKeypoints - removedPoints > 400);
+                    if(checkIsDynamic(search_coord.y,search_coord.x,segmentationOutput) ) {
+                        keypoint = mkeypoints.erase(keypoint);
+                        removedPoints++;
+                    }
+                    else {
+
+                        // if(res && !det) {
+                        //     cout<<"point with coord : " <<search_coord.x<<" "<<search_coord.y<<" "<<"has displacement "<<displacementX<<" "<<displacementY<<" and median "<<medianX<<" "<<medianY<<" is not evicted\n"; 
+                        // }
+                        keypoint++;
+                    }
+                }
+            }
+            return 1;
+    }
+
+    int removedPoints = 0;
     for (int level = 0; level < nlevels; ++level)
         {   
 
@@ -1420,9 +1522,13 @@ int ORBextractor::removeKeyPointsUsingDetectAndSegment(std::vector<std::vector<c
                     
                     auto [displacementX,displacementY] = flowResults[search_coord.y][search_coord.x];
                     bool res = (isInPerson(search_coord,dynamicObjects));
-                    bool det = (((displacementX - medianX)*(displacementX - medianX) + (displacementY - medianY)*(displacementY - medianY)) >= 7);
-                    if(det) {
+
+                    // cout<<displacementX<<" "<<medianX.first<<" "<<medianX.second<<" "<<"\n";
+                    bool det = (((displacementX >= medianX.first) && (displacementX <= medianX.second)));
+                    bool checkSufficientKeypoints = (totalKeypoints - removedPoints > 400);
+                    if(res && !det) {
                         keypoint = mkeypoints.erase(keypoint);
+                        removedPoints++;
                     }
                     else {
 
@@ -1433,6 +1539,9 @@ int ORBextractor::removeKeyPointsUsingDetectAndSegment(std::vector<std::vector<c
                     }
                 }
             }
+            cout<<totalKeypoints<< "  " << removedPoints<<"\n"; 
+
+
             return 1;
 
       

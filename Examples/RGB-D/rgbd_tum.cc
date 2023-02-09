@@ -98,12 +98,11 @@ bool isInPerson( float cx,float cy,  const std::vector<std::vector<float>> &dete
   return InPerson;
 }
 
-void retrieveFlowDetails(const string &folder, string &name , vector<vector<pair<float,float>>> &flowResults, float &medianX, float &medianY,vector<vector<float>> &dynamicObjects) {
+void retrieveFlowDetails(const string &folder, string &name , vector<vector<pair<float,float>>> &flowResults, pair<float,float> &medianX, pair<float,float> &medianY,vector<vector<float>> &dynamicObjects) {
     ifstream inputFile(folder+"/"+deriveFlowName(name));
     float x, y;
     inputFile >> x >> y;
-    medianX = x;
-    medianY = y;
+
     float mx = 0.0;
     float my = 0.0;
     vector<float>sortedX,sortedY;
@@ -112,27 +111,24 @@ void retrieveFlowDetails(const string &folder, string &name , vector<vector<pair
         vector<pair<float,float>> temp;
         for(int k=0;k<640;++k) {
             inputFile >> x >> y;
-            temp.push_back({x,y});
-            if(!isInPerson(k,j,dynamicObjects)) {
-                sortedX.push_back(x);
-                sortedY.push_back(y);
-                counter++;
-            }
-
-                mx+=x;
-                my+=y;
+            temp.push_back({x*x + y*y,y});
+            sortedX.push_back(x*x+y*y);
+            sortedY.push_back(y);
         }
         flowResults.push_back(temp);
     }
 
-    // sort(sortedX.begin(),sortedX.end());
-    // sort(sortedY.begin(),sortedY.end());
+    sort(sortedX.begin(),sortedX.end());
+    sort(sortedY.begin(),sortedY.end());
+    
+    int sz = sortedX.size()/2;
 
+    int range = (3*sz/8);
+    medianX = {sortedX[sz-range],sortedX[sz+range]};
+    medianY = {sortedY[sz-range],sortedY[sz+range]};
 
     // medianX = mx/(640*480);
     // medianY = my/(640*480);
-
-    cout<<medianX<<" "<<medianY<<"\n";
     inputFile.close();
 }
 
@@ -223,7 +219,7 @@ int main(int argc, char **argv)
         retrieveObjectsFromImage(string(argv[6]),vstrImageFilenamesRGB[ni],dynamicObjects);
 
         vector<vector<pair<float,float>>> flowResults;
-        float medianX=-1,medianY=-1;
+        std::pair<float,float> medianX,medianY;
         if(ni != 0) {
             retrieveFlowDetails(string(argv[7]) , vstrImageFilenamesRGB[ni], flowResults, medianX, medianY,dynamicObjects);
             int rows = flowResults.size();

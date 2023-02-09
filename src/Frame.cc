@@ -338,7 +338,7 @@ void Frame::removeIncorrectKeyPointsUsingDetect(cv::Mat &imRGB, const cv::Mat &i
     AssignFeaturesToGrid();
 }
 
-void Frame::removeIncorrectKeyPointsUsingDetectAndSegment(cv::Mat &imRGB, const cv::Mat &imGray, const cv::Mat &imDepth, cv::Mat &K, const std::vector<std::vector<float>> &dynamicObjects, const cv::Mat &segmentationOutput, float medianX, float medianY, const vector<vector<pair<float,float>>> &flowResults) {
+void Frame::removeIncorrectKeyPointsUsingDetectAndSegment(cv::Mat &imRGB, const cv::Mat &imGray, const cv::Mat &imDepth, cv::Mat &K, const std::vector<std::vector<float>> &dynamicObjects, const cv::Mat &segmentationOutput, std::pair<float,float> medianX, std::pair<float,float> medianY, const vector<vector<pair<float,float>>> &flowResults) {
 
     if(!T_M.empty())
     {

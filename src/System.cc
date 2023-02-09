@@ -165,7 +165,7 @@ cv::Mat System::TrackStereo(const cv::Mat &imLeft, const cv::Mat &imRight, const
     return Tcw;
 }
 
-cv::Mat System::TrackRGBD(const cv::Mat &im, const cv::Mat &depthmap, const double &timestamp, const cv::Mat &segmentationOutput, const std::vector<std::vector<float>> &dynamicObjects, float medianX, float medianY, const vector<vector<pair<float,float>>> &flowResults)
+cv::Mat System::TrackRGBD(const cv::Mat &im, const cv::Mat &depthmap, const double &timestamp, const cv::Mat &segmentationOutput, const std::vector<std::vector<float>> &dynamicObjects, std::pair<float,float> medianX, std::pair<float,float> medianY, const vector<vector<pair<float,float>>> &flowResults)
 {
     if(mSensor!=RGBD)
     {
