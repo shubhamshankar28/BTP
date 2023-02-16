@@ -1276,7 +1276,84 @@ int ORBextractor::removeKeyPointsUsingDetectAndSegment(std::vector<std::vector<c
 	            break;
 	}
 	 
-     flag_orb_mov = 1;
+
+    float areaToRemove = 0.0;
+    float totalArea = 480.0*640.0;
+    for(auto it : dynamicObjects) {
+        areaToRemove += (it[3]-it[1])*(it[4]-it[2]);
+    }
+
+    // if(areaToRemove > totalArea/2) {
+
+
+    //     std::cout<<"area is absurdly high "<<areaToRemove<<" "<<(totalArea/2)<<"\n";
+    //     int flag_segment = 0;
+    //     for (int i = 0; i < T.size(); i++)
+    //     {
+    //         for(int m = -15; m < 15; m++) 
+    //         {
+    //             for(int n = -15; n < 15; n++)
+    //             {
+    //                 int my = ((int)T[i].y + n) ;
+    //                 int mx = ((int)T[i].x + m) ;
+    //                 if( ((int)T[i].y + n) > (height -1) ) my = (height - 1) ;
+    //                 if( ((int)T[i].y + n) < 1 ) my = 0;
+    //                 if( ((int)T[i].x + m) > (width -1) ) mx = (width - 1) ;
+    //                 if( ((int)T[i].x + m) < 1 ) mx = 0;
+    //                 // The label of peopel is 15
+    //                 if(checkIsDynamic(my,mx,segmentationOutput))
+    //                 {
+    //                     flag_segment=1;
+    //                     break;
+    //                 }
+    //             }
+    //                 if(flag_segment==1)
+    //                     break;
+    //         }
+    //             if(flag_segment==1)
+    //                 break;
+    //     }
+
+    //     if(flag_segment == 0)
+    //         return 1;
+
+
+
+
+	//     for (int level = 0; level < nlevels; ++level)
+    //         {
+    //             vector<cv::KeyPoint>& mkeypoints = mvKeysT[level];
+	// 	        int nkeypointsLevel = (int)mkeypoints.size();
+	// 	        if(nkeypointsLevel==0)
+	// 	                continue;
+	// 	        if (level != 0)
+	// 		        scale = mvScaleFactor[level]; 
+	// 	        else
+	// 		        scale =1; 
+    //             vector<cv::KeyPoint>::iterator keypoint = mkeypoints.begin();
+               
+    //             while(keypoint != mkeypoints.end())
+	//             {   
+	// 	             cv::Point2f search_coord = keypoint->pt * scale;
+	// 	             // Search in the semantic image
+	// 	             if(search_coord.x >= (width -1)) search_coord.x=(width -1);
+	// 	             if(search_coord.y >= (height -1)) search_coord.y=(height -1) ;
+	// 	             if(checkIsDynamic(search_coord.y,search_coord.x,segmentationOutput)) 
+	// 	             {  
+ 	// 		            keypoint=mkeypoints.erase(keypoint);		       
+	// 	             }
+	// 	             else
+	// 	             {
+	// 		            keypoint++;
+	// 	             }
+	//              }
+	//           }
+    //     return 1;
+    // }
+
+
+
+    flag_orb_mov = 1;
 
     int numberOfDetectKeyPoint = 0 , unremovedKeyPoint = 0;
 
@@ -1285,6 +1362,12 @@ int ORBextractor::removeKeyPointsUsingDetectAndSegment(std::vector<std::vector<c
         vector<pair<int,int>> temp;
         indexesToRemove.push_back(temp);
     }
+
+
+
+
+
+
 
     vector<vector<int>> globalDynamicKeypointsTracker;
     vector<vector<int>> removalMask;
@@ -1349,11 +1432,18 @@ int ORBextractor::removeKeyPointsUsingDetectAndSegment(std::vector<std::vector<c
 
        sort(globalDynamicKeypointsTracker.begin(),globalDynamicKeypointsTracker.end());
        int globalSize = globalDynamicKeypointsTracker.size();
+       int removedKeypoints = 0; 
 
        for(int i=0;i<globalSize; ++i) {
-        if(globalDynamicKeypointsTracker[i][0] >= 150)
+        if(globalDynamicKeypointsTracker[i][0] >= 100)
             break;
+        // if(2*removedKeypoints > numberOfDetectKeyPoint)
+        //     break;
+
         removalMask[globalDynamicKeypointsTracker[i][1]][globalDynamicKeypointsTracker[i][2]] = 0;
+        removedKeypoints++;
+
+
        }
 
 
