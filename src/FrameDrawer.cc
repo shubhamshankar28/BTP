@@ -66,7 +66,7 @@ cv::Mat FrameDrawer::DrawFrame()
             vbMap = mvbMap;
         }
         else if(mState==Tracking::LOST)
-        {
+        {   cout<<"track lost\n";
             vCurrentKeys = mvCurrentKeys;
         }
     } // destroy scoped mutex -> release mutex

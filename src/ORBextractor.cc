@@ -1283,6 +1283,34 @@ int ORBextractor::removeKeyPointsUsingDetectAndSegment(std::vector<std::vector<c
         areaToRemove += (it[3]-it[1])*(it[4]-it[2]);
     }
 
+
+        int flag_segment = 0;
+        for (int i = 0; i < T.size(); i++)
+        {
+            for(int m = -15; m < 15; m++) 
+            {
+                for(int n = -15; n < 15; n++)
+                {
+                    int my = ((int)T[i].y + n) ;
+                    int mx = ((int)T[i].x + m) ;
+                    if( ((int)T[i].y + n) > (height -1) ) my = (height - 1) ;
+                    if( ((int)T[i].y + n) < 1 ) my = 0;
+                    if( ((int)T[i].x + m) > (width -1) ) mx = (width - 1) ;
+                    if( ((int)T[i].x + m) < 1 ) mx = 0;
+                    // The label of peopel is 15
+                    if(checkIsDynamic(my,mx,segmentationOutput))
+                    {
+                        flag_segment=1;
+                        break;
+                    }
+                }
+                    if(flag_segment==1)
+                        break;
+            }
+                if(flag_segment==1)
+                    break;
+        }
+
     // if(areaToRemove > totalArea/2) {
 
 
@@ -1351,6 +1379,8 @@ int ORBextractor::removeKeyPointsUsingDetectAndSegment(std::vector<std::vector<c
     //     return 1;
     // }
 
+    if(flag_orb_mov == 0)
+        return 0;
 
 
     flag_orb_mov = 1;
@@ -1409,12 +1439,14 @@ int ORBextractor::removeKeyPointsUsingDetectAndSegment(std::vector<std::vector<c
 
 
                     int ans;
-                    if(checkIsDynamic(search_coord.y,search_coord.x,segmentationOutput)) {
+                    if(checkIsDynamic(search_coord.y,search_coord.x,segmentationOutput) && (flag_segment == 1)) {
                         levelMask.push_back(0);
                     }
                     else {
                         levelMask.push_back(1);
                     }
+
+                    // levelMask.push_back(1);
                     if(inPerson == 1) {
                         ans = closestPixelDistance(search_coord.y,search_coord.x,segmentationOutput);
                         indexesToRemove[level].push_back({ans,counter});
@@ -1435,7 +1467,7 @@ int ORBextractor::removeKeyPointsUsingDetectAndSegment(std::vector<std::vector<c
        int removedKeypoints = 0; 
 
        for(int i=0;i<globalSize; ++i) {
-        if(globalDynamicKeypointsTracker[i][0] >= 100)
+        if(globalDynamicKeypointsTracker[i][0] > 25)
             break;
         // if(2*removedKeypoints > numberOfDetectKeyPoint)
         //     break;
@@ -1446,7 +1478,7 @@ int ORBextractor::removeKeyPointsUsingDetectAndSegment(std::vector<std::vector<c
 
        }
 
-
+       cout<<"total keypoints "<<numberOfDetectKeyPoint<<" "<<"removed keypoints "<<removedKeypoints<<"\n";
        for(int i=0;i<nlevels;++i) {
             int sz  = mvKeysT[i].size();
             if(sz == 0)
