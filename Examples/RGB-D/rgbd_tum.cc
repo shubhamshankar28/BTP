@@ -34,6 +34,11 @@ void LoadImages(const string &strAssociationFilename, vector<string> &vstrImageF
                 vector<string> &vstrImageFilenamesD, vector<double> &vTimestamps);
 
 
+/*
+    Roll : 190101107 , Semantic Segmentation based Visual SLAM System for Dynamic Environment
+    (BTech Project) changes begin.
+*/
+
 string deriveSegmentName(string &s) {
     int len = s.size();
     string fin = s.substr(4,len-8);
@@ -108,20 +113,6 @@ int main(int argc, char **argv)
 
     // Main loop
     cv::Mat imRGB, imD, segmentationOutput;
-    // cv::Mat segmentedImage= cv::imread("/home/cse/segmentationTest/out.png" ,IMREAD_UNCHANGED);
-
-    // cout<<segmentedImage.rows<<" "<<segmentedImage.cols<<" "<<segmentedImage.channels()<<"\n";
-
-    
-
-
-    // int cols = segmentedImage.cols-1;
-    // for(int i=0;i<segmentedImage.rows;++i) {
-    //     int r= segmentedImage.at<Vec3b>(i,cols)[0];
-    //     int g= segmentedImage.at<Vec3b>(i,cols)[1];
-    //     int b= segmentedImage.at<Vec3b>(i,cols)[2];
-    //     cout<<r<<" "<<g<<" "<<b<<"\n";
-    // }
 
     for(int ni=0; ni<nImages; ni++)
     {
@@ -133,8 +124,7 @@ int main(int argc, char **argv)
         imD = cv::imread(string(argv[3])+"/"+vstrImageFilenamesD[ni],IMREAD_UNCHANGED);
 
         string nameOfSegmentedFile = deriveSegmentName(vstrImageFilenamesRGB[ni]);
-        // cout<<vstrImageFilenamesRGB[ni]<<" "<<nameOfSegmentedFile<<" "<<(string(argv[5]) + "/" + nameOfSegmentedFile)<<"\n";
-        // return 1;
+
         segmentationOutput = cv::imread(string(argv[5]) + "/" + nameOfSegmentedFile,IMREAD_UNCHANGED);
 
         if(segmentationOutput.empty()) {
@@ -149,16 +139,9 @@ int main(int argc, char **argv)
         vector<vector<float>> dynamicObjects;
         retrieveObjectsFromImage(string(argv[6]),vstrImageFilenamesRGB[ni],dynamicObjects);
 
-        cout<<(segmentationOutput.rows)<<" "<<(segmentationOutput.cols)<<"\n";
-        cout<<"processing : "<<vstrImageFilenamesRGB[ni]<<" segmentation file is : "<<(string(argv[5]) + "/" + nameOfSegmentedFile)<<"\n";
+        // cout<<(segmentationOutput.rows)<<" "<<(segmentationOutput.cols)<<"\n";
+        // cout<<"processing : "<<vstrImageFilenamesRGB[ni]<<" segmentation file is : "<<(string(argv[5]) + "/" + nameOfSegmentedFile)<<"\n";
         int sz = dynamicObjects.size();
-        // cout<<sz<<"\n";
-        // for(int i=0;i<sz;++i) {
-        //     for(auto &it : dynamicObjects[i]) {
-        //         cout<<it<<" ";
-        //     }
-        //     cout<<"\n";
-        // }
 
 
         double tframe = vTimestamps[ni];
@@ -182,7 +165,7 @@ int main(int argc, char **argv)
     int greenVal= segmentationOutput.at<Vec3b>(209,527)[1];
     int redVal= segmentationOutput.at<Vec3b>(209,527)[2];
 
-    cout<<"output of pixel : 527 209 is "<<(blueVal)<<" "<<(greenVal)<<" "<<(redVal)<<"  \n";
+    // cout<<"output of pixel : 527 209 is "<<(blueVal)<<" "<<(greenVal)<<" "<<(redVal)<<"  \n";
         // Pass the image to the SLAM system
         SLAM.TrackRGBD(imRGB,imD,tframe,segmentationOutput,dynamicObjects);
         // if(vstrImageFilenamesRGB[ni] == "rgb/1341846313.789969.png") {
@@ -229,6 +212,10 @@ int main(int argc, char **argv)
 
     return 0;
 }
+/*
+    Roll : 190101107 , Semantic Segmentation based Visual SLAM System for Dynamic Environment
+    (BTech Project) ends.
+*/
 
 void LoadImages(const string &strAssociationFilename, vector<string> &vstrImageFilenamesRGB,
                 vector<string> &vstrImageFilenamesD, vector<double> &vTimestamps)

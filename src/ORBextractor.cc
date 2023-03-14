@@ -1033,6 +1033,11 @@ void ORBextractor::ComputeKeyPointsOld(std::vector<std::vector<KeyPoint> > &allK
         computeOrientation(mvImagePyramid[level], allKeypoints[level], umax);
 }
 
+
+/*
+    Roll : 190101107 , Semantic Segmentation based Visual SLAM System for Dynamic Environment
+    (BTech Project) changes begin.
+*/
 bool ORBextractor::checkIsDynamic(int r, int c, const cv::Mat &segmentedImage) {
     int height = 480,width = 640;
     if((r >= height) || (r < 0) || (c >= width) || (c < 0)) {
@@ -1158,6 +1163,8 @@ bool ORBextractor::isInPerson( const cv::Point2f &coordinate,  const std::vector
   return InPerson;
 }
 
+
+
 int ORBextractor::removeKeyPointsUsingDetect(std::vector<std::vector<cv::KeyPoint>>& mvKeysT,std::vector<cv::Point2f> T, const std::vector<std::vector<float>> &dynamicObjects) {
 
 
@@ -1240,8 +1247,6 @@ int ORBextractor::removeKeyPointsUsingDetect(std::vector<std::vector<cv::KeyPoin
 int ORBextractor::removeKeyPointsUsingDetectAndSegment(std::vector<std::vector<cv::KeyPoint>>& mvKeysT,std::vector<cv::Point2f> T, const std::vector<std::vector<float>> &dynamicObjects, const cv::Mat &segmentationOutput) {
 
 
-
-
     float scale;
     int flag_orb_mov =0;   
     int height = 480;
@@ -1311,73 +1316,6 @@ int ORBextractor::removeKeyPointsUsingDetectAndSegment(std::vector<std::vector<c
                     break;
         }
 
-    // if(areaToRemove > totalArea/2) {
-
-
-    //     std::cout<<"area is absurdly high "<<areaToRemove<<" "<<(totalArea/2)<<"\n";
-    //     int flag_segment = 0;
-    //     for (int i = 0; i < T.size(); i++)
-    //     {
-    //         for(int m = -15; m < 15; m++) 
-    //         {
-    //             for(int n = -15; n < 15; n++)
-    //             {
-    //                 int my = ((int)T[i].y + n) ;
-    //                 int mx = ((int)T[i].x + m) ;
-    //                 if( ((int)T[i].y + n) > (height -1) ) my = (height - 1) ;
-    //                 if( ((int)T[i].y + n) < 1 ) my = 0;
-    //                 if( ((int)T[i].x + m) > (width -1) ) mx = (width - 1) ;
-    //                 if( ((int)T[i].x + m) < 1 ) mx = 0;
-    //                 // The label of peopel is 15
-    //                 if(checkIsDynamic(my,mx,segmentationOutput))
-    //                 {
-    //                     flag_segment=1;
-    //                     break;
-    //                 }
-    //             }
-    //                 if(flag_segment==1)
-    //                     break;
-    //         }
-    //             if(flag_segment==1)
-    //                 break;
-    //     }
-
-    //     if(flag_segment == 0)
-    //         return 1;
-
-
-
-
-	//     for (int level = 0; level < nlevels; ++level)
-    //         {
-    //             vector<cv::KeyPoint>& mkeypoints = mvKeysT[level];
-	// 	        int nkeypointsLevel = (int)mkeypoints.size();
-	// 	        if(nkeypointsLevel==0)
-	// 	                continue;
-	// 	        if (level != 0)
-	// 		        scale = mvScaleFactor[level]; 
-	// 	        else
-	// 		        scale =1; 
-    //             vector<cv::KeyPoint>::iterator keypoint = mkeypoints.begin();
-               
-    //             while(keypoint != mkeypoints.end())
-	//             {   
-	// 	             cv::Point2f search_coord = keypoint->pt * scale;
-	// 	             // Search in the semantic image
-	// 	             if(search_coord.x >= (width -1)) search_coord.x=(width -1);
-	// 	             if(search_coord.y >= (height -1)) search_coord.y=(height -1) ;
-	// 	             if(checkIsDynamic(search_coord.y,search_coord.x,segmentationOutput)) 
-	// 	             {  
- 	// 		            keypoint=mkeypoints.erase(keypoint);		       
-	// 	             }
-	// 	             else
-	// 	             {
-	// 		            keypoint++;
-	// 	             }
-	//              }
-	//           }
-    //     return 1;
-    // }
 
     if(flag_orb_mov == 0)
         return 0;
@@ -1392,12 +1330,6 @@ int ORBextractor::removeKeyPointsUsingDetectAndSegment(std::vector<std::vector<c
         vector<pair<int,int>> temp;
         indexesToRemove.push_back(temp);
     }
-
-
-
-
-
-
 
     vector<vector<int>> globalDynamicKeypointsTracker;
     vector<vector<int>> removalMask;
@@ -1469,16 +1401,11 @@ int ORBextractor::removeKeyPointsUsingDetectAndSegment(std::vector<std::vector<c
        for(int i=0;i<globalSize; ++i) {
         if(globalDynamicKeypointsTracker[i][0] > 25)
             break;
-        // if(2*removedKeypoints > numberOfDetectKeyPoint)
-        //     break;
-
         removalMask[globalDynamicKeypointsTracker[i][1]][globalDynamicKeypointsTracker[i][2]] = 0;
         removedKeypoints++;
-
-
        }
 
-       cout<<"total keypoints "<<numberOfDetectKeyPoint<<" "<<"removed keypoints "<<removedKeypoints<<"\n";
+    //    cout<<"total keypoints "<<numberOfDetectKeyPoint<<" "<<"removed keypoints "<<removedKeypoints<<"\n";
        for(int i=0;i<nlevels;++i) {
             int sz  = mvKeysT[i].size();
             if(sz == 0)
@@ -1494,6 +1421,11 @@ int ORBextractor::removeKeyPointsUsingDetectAndSegment(std::vector<std::vector<c
 
       return flag_orb_mov;
 }
+
+/*
+    Roll : 190101107 , Semantic Segmentation based Visual SLAM System for Dynamic Environment
+    (BTech Project) changes end.
+*/
 
 static void computeDescriptors(const Mat& image, vector<KeyPoint>& keypoints, Mat& descriptors,
                                const vector<Point>& pattern)

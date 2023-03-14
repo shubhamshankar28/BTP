@@ -1,9 +1,9 @@
 echo "running main command"
-~/BTP/Examples/RGB-D/rgbd_tum Vocabulary/ORBvoc.txt ~/BTP/Examples/RGB-D/TUM3.yaml /home/cse/Downloads/rgbd_dataset_freiburg3_$1 /home/cse/Downloads/rgbd_dataset_freiburg3_$1/associations.txt /home/cse/segmentationTest/segmentationResults_$1 /home/cse/segmentationTest/objectDetectionResults_$1_fixed
-
+python3 ./evaluationMetrics/associate.py $1/rgb.txt $1/depth.txt > $1/associations.txt
+./Examples/RGB-D/rgbd_tum Vocabulary/ORBvoc.txt ./Examples/RGB-D/TUM3.yaml $1 $1/associations.txt ./$2_semanticSegmentationResults ./$2_objectDetectionResults
 echo "done"
-python3 ~/BTPtools/evaluate_rpe.py /home/cse/Downloads/rgbd_dataset_freiburg3_$1/groundtruth.txt ~/BTP/CameraTrajectory.txt --verbose
-python3 ~/BTPtools/evaluate_ate.py /home/cse/Downloads/rgbd_dataset_freiburg3_$1/groundtruth.txt ~/BTP/CameraTrajectory.txt --verbose
+python3 ./evaluationMetrics/evaluate_rpe.py $1/groundtruth.txt ./CameraTrajectory.txt --verbose
+python3 ./evaluationMetrics/evaluate_ate.py $1/groundtruth.txt ./CameraTrajectory.txt --verbose
 echo "/home/cse/segmentationTest/segmentationResults"
 echo "/home/cse/segmentationTest/objectDetectionResults"
 echo "/home/cse/segmentationTest/raftFlowResults_$1 "

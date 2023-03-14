@@ -25,3 +25,5 @@ CameraTrajectory.txt
 KeyFrameTrajectory.txt
 .vscode/
 *.log
+*objectDetect
+*segment.png

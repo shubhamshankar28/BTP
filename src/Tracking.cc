@@ -205,6 +205,11 @@ cv::Mat Tracking::GrabImageStereo(const cv::Mat &imRectLeft, const cv::Mat &imRe
 
 int objectDetectionRun = 0;
 int semanticSegmentationRun = 0;
+
+/*
+    Roll : 190101107 , Semantic Segmentation based Visual SLAM System for Dynamic Environment
+    (BTech Project) changes begin.
+*/
 cv::Mat Tracking::GrabImageRGBD(const cv::Mat &imRGB,const cv::Mat &imD, const double &timestamp, const cv::Mat &segmentationOutput, const std::vector<std::vector<float>> &dynamicObjects)
 {   
     cv::Mat mImRGB = imRGB;
@@ -237,24 +242,16 @@ cv::Mat Tracking::GrabImageRGBD(const cv::Mat &imRGB,const cv::Mat &imD, const d
     }
     float totalArea = 480.0*640.0;
 
-    // if(peopleArea/totalArea > 0.5) {
-    //     cout<<"running semantic segmentation for time: " << semanticSegmentationRun<<"\n";
-    //     mCurrentFrame.removeIncorrectKeyPointsUsingSegment(mImRGB,mImGray,imDepth,mK,segmentationOutput);
-    //     semanticSegmentationRun++;
-    // }
-    // else {
-    //     cout<<"running object detection for time : "<<objectDetectionRun<<"\n";
-    //     mCurrentFrame.removeIncorrectKeyPointsUsingDetect(mImRGB,mImGray,imDepth,mK,dynamicObjects);  
-    //     objectDetectionRun++;
-    // }
-    // cout<<"calling incorrect keypoints using detect and segment\n";
     mCurrentFrame.removeIncorrectKeyPointsUsingDetectAndSegment(mImRGB,mImGray,imDepth,mK,dynamicObjects,segmentationOutput); 
     // cout<<"returning from remove incorrect keypoints using detect and segment\n";
     Track();
 
     return mCurrentFrame.mTcw.clone();
 }
-
+/*
+    Roll : 190101107 , Semantic Segmentation based Visual SLAM System for Dynamic Environment
+    (BTech Project) ends.
+*/
 
 cv::Mat Tracking::GrabImageMonocular(const cv::Mat &im, const double &timestamp)
 {

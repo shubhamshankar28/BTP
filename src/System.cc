@@ -165,6 +165,10 @@ cv::Mat System::TrackStereo(const cv::Mat &imLeft, const cv::Mat &imRight, const
     return Tcw;
 }
 
+/*
+    Roll : 190101107 , Semantic Segmentation based Visual SLAM System for Dynamic Environment
+    (BTech Project) changes begin.
+*/
 cv::Mat System::TrackRGBD(const cv::Mat &im, const cv::Mat &depthmap, const double &timestamp, const cv::Mat &segmentationOutput, const std::vector<std::vector<float>> &dynamicObjects)
 {
     if(mSensor!=RGBD)
@@ -215,6 +219,10 @@ cv::Mat System::TrackRGBD(const cv::Mat &im, const cv::Mat &depthmap, const doub
     mTrackedKeyPointsUn = mpTracker->mCurrentFrame.mvKeysUn;
     return Tcw;
 }
+/*
+    Roll : 190101107 , Semantic Segmentation based Visual SLAM System for Dynamic Environment
+    (BTech Project) ends.
+*/
 
 cv::Mat System::TrackMonocular(const cv::Mat &im, const double &timestamp)
 {
