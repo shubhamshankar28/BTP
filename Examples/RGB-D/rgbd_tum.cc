@@ -70,15 +70,17 @@ void retrieveObjectsFromImage(const string &folder,string &name, vector<vector<f
 
 int main(int argc, char **argv)
 {
-    if(argc != 7)
+
+    for(int i=0;i<argc;++i) {
+        cout<<i<<" "<<argv[i]<<"\n";
+    }
+    
+    if(argc != 8)
     {
         cerr << endl << "Usage: ./rgbd_tum path_to_vocabulary path_to_settings path_to_sequence path_to_association" << endl;
         return 1;
     }
 
-    for(int i=0;i<argc;++i) {
-        cout<<i<<" "<<argv[i]<<"\n";
-    }
     // Retrieve paths to images
     vector<string> vstrImageFilenamesRGB;
     vector<string> vstrImageFilenamesD;
@@ -206,9 +208,10 @@ int main(int argc, char **argv)
     cout << "median tracking time: " << vTimesTrack[nImages/2] << endl;
     cout << "mean tracking time: " << totaltime/nImages << endl;
 
+    string dataset = string(argv[7]);
     // Save camera trajectory
-    SLAM.SaveTrajectoryTUM("CameraTrajectory.txt");
-    SLAM.SaveKeyFrameTrajectoryTUM("KeyFrameTrajectory.txt");   
+    SLAM.SaveTrajectoryTUM("CameraTrajectory"+dataset+".txt");
+    SLAM.SaveKeyFrameTrajectoryTUM("KeyFrameTrajectory"+dataset+".txt");   
 
     return 0;
 }
