@@ -257,6 +257,9 @@ Frame::Frame(const cv::Mat &imGray, const double &timeStamp, ORBextractor* extra
     AssignFeaturesToGrid();
 }
 
+/*
+    Roll 190101107 BTP code begins.
+*/
 void Frame::removeIncorrectKeyPointsUsingSegment(cv::Mat &imRGB, const cv::Mat &imGray, const cv::Mat &imDepth, cv::Mat &K, const cv::Mat &segmentationOutput) {
 
     if(!T_M.empty())
@@ -378,6 +381,9 @@ void Frame::removeIncorrectKeyPointsUsingDetectAndSegment(cv::Mat &imRGB, const 
     AssignFeaturesToGrid();
 }
 
+/*
+    Roll 190101107 BTP code ends.
+*/
 void Frame::AssignFeaturesToGrid()
 {
     int nReserve = 0.5f*N/(FRAME_GRID_COLS*FRAME_GRID_ROWS);

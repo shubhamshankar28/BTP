@@ -1033,6 +1033,9 @@ void ORBextractor::ComputeKeyPointsOld(std::vector<std::vector<KeyPoint> > &allK
         computeOrientation(mvImagePyramid[level], allKeypoints[level], umax);
 }
 
+/*
+    Roll : 190101107 BTP code begins.
+*/
 bool ORBextractor::checkIsDynamic(int r, int c, const cv::Mat &segmentedImage) {
     int height = 480,width = 640;
     if((r >= height) || (r < 0) || (c >= width) || (c < 0)) {
@@ -1287,99 +1290,7 @@ int ORBextractor::removeKeyPointsUsingDetectAndSegment(std::vector<std::vector<c
 	}
 	 
 
-    // int numberOfDetectKeyPoint = 0 , unremovedKeyPoint = 0;
 
-    // std::vector<std::vector<std::pair<int,int>>> indexesToRemove;
-    // for(int j=0;j<nlevels;++j) {
-    //     vector<pair<int,int>> temp;
-    //     indexesToRemove.push_back(temp);
-    // }
-
-    // vector<vector<int>> globalDynamicKeypointsTracker;
-    // vector<vector<int>> removalMask;
-
-	// if(flag_orb_mov==1)
-	// {
-
-	//     for (int level = 0; level < nlevels; ++level)
-    //         {
-    //             vector<cv::KeyPoint>& mkeypoints = mvKeysT[level];
-	// 	        int nkeypointsLevel = (int)mkeypoints.size();
-    //             int counter = 0;
-
-    //             vector<int> levelMask;
-    //             numberOfDetectKeyPoint+=nkeypointsLevel;
-	// 	        if(nkeypointsLevel==0) {
-	// 	                removalMask.push_back(levelMask);
-    //                     continue;
-    //             }
-	// 	        if (level != 0)
-	// 		        scale = mvScaleFactor[level]; 
-	// 	        else
-	// 		        scale =1; 
-    //             vector<cv::KeyPoint>::iterator keypoint = mkeypoints.begin();
-               
-    //             while(keypoint != mkeypoints.end())
-	//             {
-	// 	             cv::Point2f search_coord = keypoint->pt * scale;
-	// 	             if(search_coord.x >= (width -1)) search_coord.x=(width -1);
-	// 	             if(search_coord.y >= (height -1)) search_coord.y=(height -1) ;
-
-    //                  int inPerson = 0;
-
-	// 	             if(isInPerson(search_coord, dynamicObjects)) 
-	// 	             {
-    //                     inPerson = 1;
-	// 	             }
-                    
-
-
-    //                 int ans;
-    //                 if(checkIsDynamic(search_coord.y,search_coord.x,segmentationOutput)) {
-    //                     levelMask.push_back(0);
-    //                 }
-    //                 else {
-    //                     levelMask.push_back(1);
-    //                 }
-    //                 if(inPerson == 1) {
-    //                     ans = closestPixelDistance(search_coord.y,search_coord.x,segmentationOutput);
-    //                     indexesToRemove[level].push_back({ans,counter});
-    //                     globalDynamicKeypointsTracker.push_back({ans,level,counter,search_coord.x,search_coord.y});
-    //                     // cout<<"distance is : "<<ans<<" "; 
-    //                 }
-    //                 keypoint++;
-    //                 counter++;
-	//              }
-
-    //              removalMask.push_back(levelMask);
-	//           }
-    //   }
-
-
-    //    sort(globalDynamicKeypointsTracker.begin(),globalDynamicKeypointsTracker.end());
-    //    int globalSize = globalDynamicKeypointsTracker.size();
-
-    //    for(int i=0;i<globalSize; ++i) {
-    //     if(globalDynamicKeypointsTracker[i][0] >= 150)
-    //         break;
-    //     removalMask[globalDynamicKeypointsTracker[i][1]][globalDynamicKeypointsTracker[i][2]] = 0;
-    //    }
-
-
-    //    for(int i=0;i<nlevels;++i) {
-    //         int sz  = mvKeysT[i].size();
-    //         if(sz == 0)
-    //             continue;
-    //         vector<cv::KeyPoint> keypoints;
-    //         for(int l=0;l<sz;++l) {
-    //             if(removalMask[i][l] == 0) continue;
-    //             keypoints.push_back(mvKeysT[i][l]);
-    //         }
-    //     mvKeysT[i] = keypoints;
-    //    } 
-
-
-    //   return flag_orb_mov;
 
 
 
@@ -1429,7 +1340,7 @@ int ORBextractor::removeKeyPointsUsingDetectAndSegment(std::vector<std::vector<c
 
         int sz = sortedDisplacements.size()/2;
     
-        cout<<sz<<" "<<range<<"\n";
+        // cout<<sz<<" "<<range<<"\n";
         limitLower = sortedDisplacements[sz-range];
         limitUpper = sortedDisplacements[sz+range];
 
@@ -1438,20 +1349,20 @@ int ORBextractor::removeKeyPointsUsingDetectAndSegment(std::vector<std::vector<c
 
     int dsz = dynamicObjects.size();
 
-    cout<<dsz<<" dynamic objects have been detected\n";
+    // cout<<dsz<<" dynamic objects have been detected\n";
     float area = 0;
     for(int i=0;i<dsz;++i) {
         for(int j=1;j<5;++j) {
-            cout<<dynamicObjects[i][j]<<" ";
+            // cout<<dynamicObjects[i][j]<<" ";
         }
         area=((dynamicObjects[i][3] - dynamicObjects[i][1])*(dynamicObjects[i][4] - dynamicObjects[i][2])) + area;
-        cout<<"\n";
+        // cout<<"\n";
     }
 
     float totalArea = (480*640)/2;
 
     if(area > (totalArea)) {
-    cout<<"absurdly high area "<<area<<" "<<totalArea<<"\n";
+    // cout<<"absurdly high area "<<area<<" "<<totalArea<<"\n";
     int removedPoints = 0;
     for (int level = 0; level < nlevels; ++level)
         {   
@@ -1539,13 +1450,17 @@ int ORBextractor::removeKeyPointsUsingDetectAndSegment(std::vector<std::vector<c
                     }
                 }
             }
-            cout<<totalKeypoints<< "  " << removedPoints<<"\n"; 
+            // cout<<totalKeypoints<< "  " << removedPoints<<"\n"; 
 
 
             return 1;
 
       
 }
+
+/*
+    Roll : 190101107 BTP code ends.
+*/
 
 static void computeDescriptors(const Mat& image, vector<KeyPoint>& keypoints, Mat& descriptors,
                                const vector<Point>& pattern)

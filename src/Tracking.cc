@@ -205,6 +205,10 @@ cv::Mat Tracking::GrabImageStereo(const cv::Mat &imRectLeft, const cv::Mat &imRe
 
 int objectDetectionRun = 0;
 int semanticSegmentationRun = 0;
+
+/*
+    Roll 190101107 BTP code begins.
+*/
 cv::Mat Tracking::GrabImageRGBD(const cv::Mat &imRGB,const cv::Mat &imD, const double &timestamp, const cv::Mat &segmentationOutput, const std::vector<std::vector<float>> &dynamicObjects, std::pair<float,float> medianX, std::pair<float,float> medianY, const vector<vector<pair<float,float>>> &flowResults)
 {   
     cv::Mat mImRGB = imRGB;
@@ -255,6 +259,9 @@ cv::Mat Tracking::GrabImageRGBD(const cv::Mat &imRGB,const cv::Mat &imD, const d
     return mCurrentFrame.mTcw.clone();
 }
 
+/*
+    Roll 190101107 BTP code ends.
+*/
 
 cv::Mat Tracking::GrabImageMonocular(const cv::Mat &im, const double &timestamp)
 {

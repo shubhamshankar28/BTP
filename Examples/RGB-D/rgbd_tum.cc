@@ -34,6 +34,9 @@ void LoadImages(const string &strAssociationFilename, vector<string> &vstrImageF
                 vector<string> &vstrImageFilenamesD, vector<double> &vTimestamps);
 
 
+/*
+    Roll : 190101107 BTP code begins.
+*/
 string deriveSegmentName(string &s) {
     int len = s.size();
     string fin = s.substr(4,len-8);
@@ -58,7 +61,7 @@ void retrieveObjectsFromImage(const string &folder,string &name, vector<vector<f
     ifstream inputFile(folder+"/"+deriveObjectName(name));
     int t;
     inputFile >> t;
-    cout<<"detected objects "<<t<<"\n";
+    // cout<<"detected objects "<<t<<"\n";
     for(int i=0;i<t;++i) {
         vector<float> temp;
         for(int j=0;j<5;++j) {
@@ -133,12 +136,14 @@ void retrieveFlowDetails(const string &folder, string &name , vector<vector<pair
 }
 
 int main(int argc, char **argv)
-{
-    if(argc != 8)
+{   
+    // cout << argc<<"\n";
+    if(argc != 9)
     {
         cerr << endl << "Usage: ./rgbd_tum path_to_vocabulary path_to_settings path_to_sequence path_to_association" << endl;
         return 1;
     }
+
 
     for(int i=0;i<argc;++i) {
         cout<<i<<" "<<argv[i]<<"\n";
@@ -224,11 +229,11 @@ int main(int argc, char **argv)
             retrieveFlowDetails(string(argv[7]) , vstrImageFilenamesRGB[ni], flowResults, medianX, medianY,dynamicObjects);
             int rows = flowResults.size();
             int cols = flowResults[0].size();
-            cout<<"dimension of flowResults is "<<rows<<" "<<cols<<"\n";
+            // cout<<"dimension of flowResults is "<<rows<<" "<<cols<<"\n";
         }
 
-        cout<<(segmentationOutput.rows)<<" "<<(segmentationOutput.cols)<<"\n";
-        cout<<"processing : "<<vstrImageFilenamesRGB[ni]<<" segmentation file is : "<<(string(argv[5]) + "/" + nameOfSegmentedFile)<<"\n";
+        // cout<<(segmentationOutput.rows)<<" "<<(segmentationOutput.cols)<<"\n";
+        // cout<<"processing : "<<vstrImageFilenamesRGB[ni]<<" segmentation file is : "<<(string(argv[5]) + "/" + nameOfSegmentedFile)<<"\n";
         int sz = dynamicObjects.size();
         // cout<<sz<<"\n";
         // for(int i=0;i<sz;++i) {
@@ -260,7 +265,7 @@ int main(int argc, char **argv)
     int greenVal= segmentationOutput.at<Vec3b>(209,527)[1];
     int redVal= segmentationOutput.at<Vec3b>(209,527)[2];
 
-    cout<<"output of pixel : 527 209 is "<<(blueVal)<<" "<<(greenVal)<<" "<<(redVal)<<"  \n";
+    // cout<<"output of pixel : 527 209 is "<<(blueVal)<<" "<<(greenVal)<<" "<<(redVal)<<"  \n";
         // Pass the image to the SLAM system
         SLAM.TrackRGBD(imRGB,imD,tframe,segmentationOutput,dynamicObjects,medianX,medianY,flowResults);
         // if(vstrImageFilenamesRGB[ni] == "rgb/1341846313.789969.png") {
@@ -301,13 +306,18 @@ int main(int argc, char **argv)
     cout << "median tracking time: " << vTimesTrack[nImages/2] << endl;
     cout << "mean tracking time: " << totaltime/nImages << endl;
 
+
+    std::string seqname = string(argv[argc-1]);
     // Save camera trajectory
-    SLAM.SaveTrajectoryTUM("CameraTrajectory.txt");
-    SLAM.SaveKeyFrameTrajectoryTUM("KeyFrameTrajectory.txt");   
+    SLAM.SaveTrajectoryTUM("CameraTrajectory"+seqname+".txt");
+    SLAM.SaveKeyFrameTrajectoryTUM("KeyFrameTrajectory"+seqname+".txt");   
 
     return 0;
 }
 
+/*
+    Roll 190101107 BTP code ends.
+*/
 void LoadImages(const string &strAssociationFilename, vector<string> &vstrImageFilenamesRGB,
                 vector<string> &vstrImageFilenamesD, vector<double> &vTimestamps)
 {
