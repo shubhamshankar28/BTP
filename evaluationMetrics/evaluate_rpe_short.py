@@ -312,6 +312,7 @@ if __name__ == '__main__':
     ''')
     parser.add_argument('groundtruth_file', help='ground-truth trajectory file (format: "timestamp tx ty tz qx qy qz qw")')
     parser.add_argument('estimated_file', help='estimated trajectory file (format: "timestamp tx ty tz qx qy qz qw")')
+    parser.add_argument('dataset' , help='name of dataset')
     parser.add_argument('--max_pairs', help='maximum number of pose comparisons (default: 10000, set to zero to disable downsampling)', default=10000)
     parser.add_argument('--fixed_delta', help='only consider pose pairs that have a distance of delta delta_unit (e.g., for evaluating the drift per second/meter/radian)', action='store_true')
     parser.add_argument('--delta', help='delta for evaluation (default: 1.0)',default=1.0)
@@ -349,7 +350,7 @@ if __name__ == '__main__':
     
     if args.verbose:
 
-        rpeResult = open("rpeResult.txt" , "w")
+        rpeResult = open("rpeResult" + args.dataset + ".txt" , "w")
         rpeResult.write(str(len(trans_error)) + " " + str(numpy.sqrt(numpy.dot(trans_error,trans_error) / len(trans_error))) + " " +  str(numpy.sqrt(numpy.dot(rot_error,rot_error) / len(rot_error)) * 180.0 / numpy.pi))
         # print ("compared_pose_pairs %d pairs"%(len(trans_error)))
 

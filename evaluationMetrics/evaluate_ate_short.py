@@ -117,6 +117,7 @@ if __name__=="__main__":
     ''')
     parser.add_argument('first_file', help='ground truth trajectory (format: timestamp tx ty tz qx qy qz qw)')
     parser.add_argument('second_file', help='estimated trajectory (format: timestamp tx ty tz qx qy qz qw)')
+    parser.add_argument('dataset' , help = 'name of dataset')
     parser.add_argument('--offset', help='time offset added to the timestamps of the second file (default: 0.0)',default=0.0)
     parser.add_argument('--scale', help='scaling factor for the second trajectory (default: 1.0)',default=1.0)
     parser.add_argument('--max_difference', help='maximally allowed time difference for matching entries (default: 0.02)',default=0.02)
@@ -150,8 +151,16 @@ if __name__=="__main__":
     second_xyz_full_aligned = rot * second_xyz_full + trans
     
     if args.verbose:
-        ateResultFile = open("ateResult.txt" , "w")
+        ateResultFile = open("ateResult" + args.dataset + ".txt" , "w")
         ateResultFile.write(str(len(trans_error)) + " " + str(numpy.sqrt(numpy.dot(trans_error,trans_error) / len(trans_error))))
+
+        # val = numpy.sqrt(numpy.dot(trans_error,trans_error) / len(trans_error))
+
+        # if((val < 0.06) and (len(trans_error) > 859)):
+        #     with open(args.second_file) as f:
+        #         with open("best" + "_" + args.dataset+"_raft.txt", "w") as f1:
+        #             for line in f:
+        #                 f1.write(line)
         # print ("compared_pose_pairs %d pairs"%(len(trans_error)))
         # print ("absolute_translational_error.rmse %f m"%numpy.sqrt(numpy.dot(trans_error,trans_error) / len(trans_error)))
         # print ("absolute_translational_error.mean %f m"%numpy.mean(trans_error))
